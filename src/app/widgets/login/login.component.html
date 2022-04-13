@@ -1,1 +1,41 @@
-<p>login works!</p>
+<p-card>
+  <ng-template pTemplate="title">
+    Login
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    Enter credentials for Login
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="flex flex-column" style="width:20rem">
+      <form #loginForm="ngForm" class="flex flex-column m-1" (ngSubmit)="onSubmitLogin(loginForm)">
+        <div class="field">
+          <label for="username" class="block">Username</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input type="text" id="username" name="username" #username="ngModel"
+              [class.ng-invalid]="username.status=='INVALID'&&username.touched" [required]="true"
+              [class.ng-dirty]="username.status=='INVALID'&&username.touched" ngModel pInputText placeholder="Username">
+          </div>
+          <small id="username-help" class="block"
+            [class.p-error]="username.status=='INVALID'&&username.touched">Username is not available.</small>
+        </div>
+        <div class="field">
+          <label for="password" class="block">Username</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+            <p-password id="password" placeholder="Password" #password="ngModel" ngModel name="password"
+              [class.ng-invalid]="password.status=='INVALID'&&password.touched" [required]="true"
+              [class.ng-dirty]="password.status=='INVALID'&&password.touched" [style]="{'width':'100%'}"></p-password>
+          </div>
+          <small id="username-help" class="block"
+            [class.p-error]="password.status=='INVALID'&&password.touched">Password is not available.</small>
+        </div>
+        <p-button label="Sign-In" [style]="{'width':'100%'}" type="submit" [disabled]="loginForm.status=='INVALID'" [loading]="false"></p-button>
+      </form>
+      <div class="mt-1 mb-1 flex flex-row justify-content-between">
+        <span class="text-xs">Dont have an Account yet?</span>
+        <a class="pointer text-xs" routerLink="/welcome/signup">Sign-Up</a>
+      </div>
+    </div>
+  </ng-template>
+</p-card>

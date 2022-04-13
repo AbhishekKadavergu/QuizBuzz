@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
 
   constructor() { }
+  //@ViewChild('loginForm') loginForm: any;
 
   ngOnInit(): void {
   }
+
+  onSubmitLogin(loginForm:NgForm){
+    console.log(loginForm.value);
+  }
+
 
 }

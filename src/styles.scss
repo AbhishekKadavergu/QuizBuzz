@@ -1,11 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@import "fonts";
+@import "dimensions";
+@import "typography";
 
 *{
-  padding: 0% !important;
-  margin: 0% !important;
+  padding: 0% ;
+  margin: 0% ;
+  font-family: Roboto;
 }
 
 body{
   height: 100vh;
   width: 100vw;
 }
+
+.pointer{
+  text-decoration: none;
+  cursor: pointer;
+  &:hover{
+    color: var(--blue-500);
+  }
+}
+
+.p-inputtext{
+   width: 100% !important;
+}
+
+
+

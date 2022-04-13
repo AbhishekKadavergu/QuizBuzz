@@ -1,0 +1,43 @@
+<p-card>
+  <ng-template pTemplate="title">
+    Sign-Up
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    Enter credentials for Sign-Up
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="flex flex-column" style="width:20rem">
+      <form class="flex flex-column m-1">
+        <div class="field">
+          <label for="username" class="block">Username</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input type="text" id="username" pInputText placeholder="Username">
+          </div>
+          <small id="username-help" class="p-error block">Username is not available.</small>
+        </div>
+        <div class="field">
+          <label for="password" class="block">Password</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+            <p-password id="password" placeholder="Password" [style]="{'width':'100%'}"></p-password>
+          </div>
+          <small id="username-help" class="p-error block">Password is not available.</small>
+        </div>
+        <div class="field">
+          <label for="confirmPassword" class="block">Confirm Password</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+            <p-password id="confirmPassword" placeholder="Confirm Password" [style]="{'width':'100%'}"></p-password>
+          </div>
+          <small id="username-help" class="p-error block">Password is not available.</small>
+        </div>
+        <p-button label="Sign-In" [style]="{'width':'100%'}" type="submit" [loading]="false"></p-button>
+      </form>
+      <div class="mt-1 mb-1 flex flex-row justify-content-between">
+        <span class="text-xs">Already have an Account ?</span>
+        <a class="pointer text-xs" routerLink="/welcome/login">Sign-In</a>
+      </div>
+    </div>
+  </ng-template>
+</p-card>

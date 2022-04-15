@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
   showPassword:boolean=false;
   constructor(private fb:FormBuilder) {
       this.signUpForm=this.fb.group({
-        username:['',Validators.required,Validators.email],
+        mail:['',[Validators.required,Validators.email]],
         password:['',[Validators.required,Validators.minLength(8)]],
         confirmPassword:['',[Validators.required,Validators.minLength(8)]]
       },{

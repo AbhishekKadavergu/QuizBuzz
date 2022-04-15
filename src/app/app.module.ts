@@ -15,6 +15,16 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {ConfirmationService} from 'primeng/api';
+
+
+
+import { HomeComponent } from './pages/home/home.component';
+import { NavBarComponent } from './widgets/nav-bar/nav-bar.component';
+import { QuizListComponent } from './pages/quiz-list/quiz-list.component';
+
 
 
 @NgModule({
@@ -23,7 +33,10 @@ import {ButtonModule} from 'primeng/button';
     WelcomeComponent,
     LoginComponent,
     PageNotFoundComponent,
-    SignupComponent
+    SignupComponent,
+    HomeComponent,
+    NavBarComponent,
+    QuizListComponent
   ],
   imports: [
     BrowserModule,
@@ -34,9 +47,11 @@ import {ButtonModule} from 'primeng/button';
     PasswordModule,
     FormsModule,
     ReactiveFormsModule,
-    ButtonModule
+    ButtonModule,
+    ConfirmPopupModule,
+    TableModule
   ],
-  providers: [],
+  providers: [ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

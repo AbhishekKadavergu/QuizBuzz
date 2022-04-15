@@ -9,31 +9,31 @@
     <div class="flex flex-column" style="width:20rem">
       <form #loginForm="ngForm" class="flex flex-column m-1" (ngSubmit)="onSubmitLogin(loginForm)">
         <div class="field">
-          <label for="username" class="block">Username</label>
+          <label for="mail" class="block">mail</label>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-            <input type="email" id="username" name="username" #username="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              [class.ng-invalid]="username.invalid && (username.dirty || username.touched)" [required]="true"
-              [class.ng-dirty]="username.invalid && (username.dirty || username.touched)" ngModel pInputText
-              placeholder="Username">
+            <input type="email" id="mail" name="mail" #mail="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              [class.ng-invalid]="mail.invalid && (mail.dirty || mail.touched)" [required]="true"
+              [class.ng-dirty]="mail.invalid && (mail.dirty || mail.touched)" ngModel pInputText
+              placeholder="Enter E-Mail">
           </div>
-          <small id="username-help" class="block p-error" style="height: 12px;">
-            <span *ngIf="username.invalid && (username.dirty || username.touched)">Enter valid E-Mail ID</span>
+          <small id="mail-help" class="block p-error" style="height: 12px;">
+            <span *ngIf="mail.invalid && (mail.dirty || mail.touched)">Enter valid E-Mail ID</span>
           </small>
         </div>
         <div class="field">
-          <label for="password" class="block">Username</label>
+          <label for="password" class="block">Password</label>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
             <span class="p-input-icon-right" style="width: 100%;">
               <i class="pi" [class.pi-eye]="!showPassword" [class.pi-eye-slash]="showPassword" (click)="showPassword=!showPassword"></i>
-              <input id="password" [type]="showPassword?'text':'password'" pInputText placeholder="Password" #password="ngModel" ngModel
+              <input id="password" [type]="showPassword?'text':'password'" pInputText placeholder="Enter Password" #password="ngModel" ngModel
               name="password" [class.ng-invalid]="password.invalid && (password.dirty || password.touched)"
               [required]="true" [class.ng-dirty]="password.invalid && (password.dirty || password.touched)"
               [style]="{'width':'100%'}" />
           </span>
           </div>
-          <small id="username-help" class="block p-error" style="height: 12px;">
+          <small id="password-help" class="block p-error" style="height: 12px;">
             <span *ngIf="password.invalid && (password.dirty || password.touched)">
               Enter valid password
             </span>

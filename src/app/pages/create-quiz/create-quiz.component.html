@@ -10,63 +10,125 @@
       <div class="flex flex-row flex-wrap">
         <div class="field mr-2">
           <label for="name" class="block">Quiz Name</label>
-          <input id="name" name="name" type="text" aria-describedby="name-help" class="ng-invalid ng-dirty"
+          <input id="name" name="name" type="text" formControlName="name" aria-describedby="name-help"
+            [class.ng-invalid]="quizForm.controls['name'].invalid && (quizForm.controls['name'].dirty||quizForm.controls['name'].touched)"
+            [class.ng-dirty]="quizForm.controls['name'].invalid && (quizForm.controls['name'].dirty||quizForm.controls['name'].touched)"
             pInputText />
-          <small id="name-help" class="p-error block">Name is not available.</small>
+          <small style="height:12px" id="name-help" class="p-error block">
+            <span
+              *ngIf="quizForm.controls['name'].invalid && (quizForm.controls['name'].dirty||quizForm.controls['name'].touched)">
+              Name is not available.
+            </span></small>
         </div>
         <div class="field mr-2">
           <label for="startTime" class="block">Start Time</label>
-          <p-calendar id="startTime" name="startTime" aria-describedby="startTime-help" class="ng-invalid ng-dirty">
+          <p-calendar id="startTime" name="startTime" formControlName="startTime" aria-describedby="startTime-help"
+            [class.ng-invalid]="quizForm.controls['startTime'].invalid && (quizForm.controls['startTime'].dirty||quizForm.controls['startTime'].touched)"
+            [class.ng-dirty]="quizForm.controls['startTime'].invalid && (quizForm.controls['startTime'].dirty||quizForm.controls['startTime'].touched)">
           </p-calendar>
-          <small id="startTime-help" class="p-error block">Start Time is not available.</small>
+          <small style="height:12px" id="startTime-help" class="p-error block">
+            <span
+              *ngIf="quizForm.controls['startTime'].invalid && (quizForm.controls['startTime'].dirty||quizForm.controls['startTime'].touched)">
+              Start Time is not available.
+            </span> </small>
         </div>
         <div class="field mr-2">
           <label for="endTime" class="block">End Time</label>
-          <p-calendar id="endTime" name="endTime" class="ng-invalid ng-dirty"></p-calendar>
-          <small id="endTime-help" class="p-error block">Name is not available.</small>
+          <p-calendar id="endTime" name="endTime" formControlName="endTime"
+            [class.ng-invalid]="quizForm.controls['endTime'].invalid && (quizForm.controls['endTime'].dirty||quizForm.controls['endTime'].touched)"
+            [class.ng-dirty]="quizForm.controls['endTime'].invalid && (quizForm.controls['endTime'].dirty||quizForm.controls['endTime'].touched)">
+          </p-calendar>
+          <small style="height:12px" id="endTime-help" class="p-error block">
+            <span
+              *ngIf="quizForm.controls['endTime'].invalid && (quizForm.controls['endTime'].dirty||quizForm.controls['endTime'].touched)">
+              End Time is not available.
+            </span>
+          </small>
         </div>
         <div class="field mr-2">
           <label for="marks" class="block">Marks</label>
-          <p-inputNumber id="marks" name="marks" aria-describedby="marks-help" class="ng-invalid ng-dirty">
+          <p-inputNumber id="marks" name="marks" aria-describedby="marks-help" formControlName="marks"
+            [class.ng-invalid]="quizForm.controls['marks'].invalid && (quizForm.controls['marks'].dirty||quizForm.controls['marks'].touched)"
+            [class.ng-dirty]="quizForm.controls['marks'].invalid && (quizForm.controls['marks'].dirty||quizForm.controls['marks'].touched)">
           </p-inputNumber>
-          <small id="marks-help" class="p-error block">Marks is not available.</small>
+          <small style="height:12px" id="marks-help" class="p-error block">
+            <span
+              *ngIf="quizForm.controls['marks'].invalid && (quizForm.controls['marks'].dirty||quizForm.controls['marks'].touched)">
+              Marks is not available.
+            </span>
+          </small>
         </div>
         <div class="field mr-2">
           <label for="noAttempts" class="block">No. of Attempts</label>
-          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="0" [max]="100" name="noAttempts" aria-describedby="marks-help" class="ng-invalid ng-dirty">
+          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="0" [max]="100"
+            name="noAttempts" aria-describedby="marks-help" formControlName="noAttempts"
+            [class.ng-invalid]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)"
+            [class.ng-dirty]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)">
           </p-inputNumber>
-          <small id="noAttempts-help" class="p-error block">No. of Attempts is not available.</small>
+          <small style="height:12px" id="noAttempts-help" class="p-error block">
+            <span
+              *ngIf="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)">
+              No. of Attempts is not available.
+            </span>
+          </small>
         </div>
         <div class="questions w-100" formArrayName="quizQuestions">
-          <div *ngFor="let question of quizQuestions.controls;let i='index'" [formGroup]="questionForm"
+          <div *ngFor="let question of questionList.controls;let i='index'"
             class="p-card pt-5 pb-5 pr-3 pl-3 mt-4 shadow-3">
-            <div class="p-card-title text-lg">
-              {{i+1}}.Question
-            </div>
-            <div class="field mr-2">
-              <p-editor [id]="'question'+i" [style]="{'height':'150px'}" type="text" styleClass="ng-invalid ng-dirty">
-              </p-editor>
-              <small [id]="'question'+i+'-help'" class="p-error block">Name is not available.</small>
-            </div>
-            <div class="flex flex-row" formGroupName="options">
-                <div class="field mr-2" *ngFor="let option of options.controls;let j='index'">
-                  <label [for]="'option'+i+''+j" class="block">{{j+1}}.Option</label>
-                  <input [id]="'option'+i+''+j" [name]="'option'+i+''+j" type="text" class="ng-invalid ng-dirty"
-                    pInputText />
-                  <small [id]="'option'+i+''+j+'-help'" class="p-error block">{{j+1}}.Option is not available.</small>
-                </div>
-            </div>
-            <div class="flex flex-row flex-wrap">
-              <div class="field mr-2">
-                <label [for]="'marks'+i" class="block">Marks</label>
-                <p-inputNumber [id]="'marks'+i" [showButtons]="true" [inputId]="'minmax-buttons'+i" [min]="0" [max]="100" [name]="'marks'+i" class="ng-invalid ng-dirty"></p-inputNumber>
-                <small [id]="'marks'+i+'-help'" class="p-error block">Marks is not available.</small>
+            <div [formGroup]="getAsGroup(question)">
+              <div class="p-card-title text-lg">
+                {{i+1}}.Question
               </div>
               <div class="field mr-2">
-                <label [for]="'actualAnswer'+i" class="block">Actual Answer</label>
-                <input [id]="'actualAnswer'+i" [name]="'actualAnswer'+i" type="text" class="ng-invalid ng-dirty"
-                  pInputText />
-                <small [id]="'actualAnswer'+i+'-help'" class="p-error block">Name is not available.</small>
+                <p-editor [id]="'question'+i" formControlName="question" [style]="{'height':'150px'}" type="text"
+                  [class.ng-invalid]="question.get('question')?.invalid&&(question.get('question')?.dirty||question.get('question')?.invalid)"
+                  [class.ng-dirty]="question.get('question')?.invalid&&(question.get('question')?.dirty||question.get('question')?.invalid)">
+                </p-editor>
+                <small style="height:12px" [id]="'question'+i+'-help'" class="p-error block">
+                  <span *ngIf="question.get('question')?.invalid&&(question.get('question')?.dirty||question.get('question')?.touched)">
+                    Question is not available.
+                  </span>
+                </small>
+              </div>
+              <div class="flex flex-row" formArrayName="options">
+                <div class="field mr-2" *ngFor="let option of getOptions(question).controls;let j='index'">
+                  <label [for]="'option'+i+''+j" class="block">{{j+1}}.Option</label>
+                  <input [id]="'option'+i+''+j" formControlName={{j}} [name]="'option'+i+''+j" type="text"
+                    class="ng-invalid ng-dirty" pInputText
+                    [class.ng-invalid]="option.invalid&&(option.dirty||option.touched)"
+                    [class.ng-dirty]="option.invalid&&(option.dirty||option.touched)" />
+                  <small style="height:12px" [id]="'option'+i+''+j+'-help'" class="p-error block">
+                    <span *ngIf="option.invalid&&(option.dirty||option.touched)">
+                      {{j+1}}.Option is not available.
+                    </span>
+                  </small>
+                </div>
+              </div>
+              <div class="flex flex-row flex-wrap">
+                <div class="field mr-2">
+                  <label [for]="'marks'+i" class="block">Marks</label>
+                  <p-inputNumber [id]="'marks'+i" [formControlName]="'marks'" [showButtons]="true" [inputId]="'minmax-buttons'+i" [min]="0"
+                    [max]="100" [name]="'marks'+i"
+                    [class.ng-invalid]="question.get('marks')?.invalid && (question.get('marks')?.dirty||question.get('marks')?.touched)"
+                    [class.ng-dirty]="question.get('marks')?.invalid && (question.get('marks')?.dirty||question.get('marks')?.touched)"></p-inputNumber>
+                  <small style="height:12px" [id]="'marks'+i+'-help'" class="p-error block">
+                    <span *ngIf="question.get('marks')?.invalid && (question.get('marks')?.dirty||question.get('marks')?.touched)">
+                      Marks is not available
+                    </span>
+                  </small>
+                </div>
+                <div class="field mr-2">
+                  <label [for]="'actualAnswer'+i" class="block">Actual Answer</label>
+                  <input [id]="'actualAnswer'+i" [formControlName]="'actualAnswer'" [name]="'actualAnswer'+i" type="text"
+                  [class.ng-invalid]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"
+                    [class.ng-dirty]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"
+                    pInputText />
+                  <small style="height:12px" [id]="'actualAnswer'+i+'-help'" class="p-error block">
+                    <span *ngIf="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)">
+                      ActualAnswer is not available
+                    </span>
+                  </small>
+                </div>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,39 +10,42 @@ import { Component, OnInit } from '@angular/core';
 export class CreateQuizComponent implements OnInit {
 
   quizForm;
-  questionForm;
   constructor(private fb:FormBuilder) {
     let sd=new Date();
     let ed=new Date();
-    this.questionForm=this.fb.group({
-      question:['',[Validators.required]],
-      options:this.fb.array([
-        this.fb.control("",Validators.required),
-        this.fb.control("",Validators.required),
-        this.fb.control("",Validators.required),
-        this.fb.control("",Validators.required),
-      ]),
-      marks:['',[Validators.required]],
-      actualAnswer:['',[Validators.required]]
-    });
+
     this.quizForm=this.fb.group({
       name:['',[Validators.required]],
-      startTime:[sd,[Validators.required]],
-      endDate:[ed,[Validators.required]],
-      marks:[0,[Validators.required]],
-      noAttempts:[0,[Validators.required]],
+      startTime:['',[Validators.required]],
+      endTime:['',[Validators.required]],
+      marks:['',[Validators.required]],
+      noAttempts:['',[Validators.required]],
       quizQuestions:this.fb.array([
-        this.questionForm
       ])
-    })
+    });
+    this.addQuestion();
   }
 
   get quizQuestions(){
     return this.quizForm.get('quizQuestions') as FormArray;
   }
 
-  get options(){
-    return this.questionForm.get("options") as FormArray;
+  get questionForm(){
+    return this.fb.group({
+      question:['',[Validators.required]],
+      options:this.fb.array([
+        this.fb.control("",[Validators.required]),
+        this.fb.control("",[Validators.required]),
+        this.fb.control("",[Validators.required]),
+        this.fb.control("",[Validators.required])
+      ]),
+      marks:['',[Validators.required]],
+      actualAnswer:['',[Validators.required]]
+    })
+  }
+
+  get questionList(){
+    return this.quizForm.get("quizQuestions") as FormArray
   }
 
   addQuestion(){
@@ -50,6 +53,14 @@ export class CreateQuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getOptions(question:AbstractControl){
+    return question.get('options') as FormArray;
+  }
+
+  getAsGroup(question:AbstractControl){
+    return question as FormGroup;
   }
 
   onCreateQuiz(){

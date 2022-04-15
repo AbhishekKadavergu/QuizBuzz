@@ -1,17 +1,25 @@
+import { Subscription } from 'rxjs';
+import { IUser, User } from './../../utils/Models/User';
+import { DataStoreService } from './../../services/store/data-store.service';
+import { Router } from '@angular/router';
 import { IQuiz, Quiz } from './../../utils/Models/Quiz';
 import { ITable } from './../../utils/Models/ITable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-quiz-list',
   templateUrl: './quiz-list.component.html',
   styleUrls: ['./quiz-list.component.scss']
 })
-export class QuizListComponent implements OnInit {
+export class QuizListComponent implements OnInit,OnDestroy {
 
   quizList:ITable;
   selectedQuiz:IQuiz;
-  constructor() {
+  user:IUser;
+  userSub!:Subscription;
+
+  constructor(private confirmationService: ConfirmationService,private router:Router,private store:DataStoreService) {
     this.quizList={
       header:[
         {header:'Quiz Name',field:'name',type:'string'},
@@ -32,13 +40,40 @@ export class QuizListComponent implements OnInit {
       ]
     }
     this.selectedQuiz=new Quiz();
+    this.user=new User();
    }
 
   ngOnInit(): void {
+    this.userSub=this.store.user.subscribe((user:IUser)=>{
+      this.user=user;
+      this.user.isAdmin=true;
+    })
   }
 
-  onRowSelected(quiz:IQuiz){
-    console.log(quiz);
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
   }
+
+
+
+  onAttempt(){
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      key:"attempt",
+      accept: () => {
+        this.router.navigateByUrl("/home/quiz");
+      }
+  });
+  }
+
+
+
+  onDelete(){
+
+  }
+
+
 
 }

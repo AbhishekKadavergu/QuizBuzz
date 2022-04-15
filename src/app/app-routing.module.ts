@@ -1,8 +1,10 @@
+import { CreateQuizComponent } from './pages/create-quiz/create-quiz.component';
+import { QuizComponent } from './pages/quiz/quiz.component';
 import { QuizListComponent } from './pages/quiz-list/quiz-list.component';
 import { AuthGuard } from './services/guards/auth-guard.service';
 import { HomeComponent } from './pages/home/home.component';
-import { SignupComponent } from './widgets/signup/signup.component';
-import { LoginComponent } from './widgets/login/login.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { NgModule } from '@angular/core';
@@ -15,7 +17,9 @@ const routes: Routes = [
     {path:"signup",component:SignupComponent}
   ]},
   {path:'home',component:HomeComponent , /*canActivate:[AuthGuard]*/ children:[
-    {path:'quizlist',component:QuizListComponent}
+    {path:'quizlist',component:QuizListComponent},
+    {path:'quiz',component:QuizComponent},
+    {path:'createQuiz',component:CreateQuizComponent}
   ]},
   { path: '**', pathMatch: 'full',component:PageNotFoundComponent },
 ];

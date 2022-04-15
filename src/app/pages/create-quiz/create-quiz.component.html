@@ -1,0 +1,83 @@
+<p-card styleClass="m-5 mvw-90 vh-80">
+  <ng-template pTemplate="title">
+    Create Quiz
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    All the fields marked with <sup class="star">*</sup> are required
+  </ng-template>
+  <ng-template pTemplate="content">
+    <form [formGroup]="quizForm" (ngSubmit)="onCreateQuiz()">
+      <div class="flex flex-row flex-wrap">
+        <div class="field mr-2">
+          <label for="name" class="block">Quiz Name</label>
+          <input id="name" name="name" type="text" aria-describedby="name-help" class="ng-invalid ng-dirty"
+            pInputText />
+          <small id="name-help" class="p-error block">Name is not available.</small>
+        </div>
+        <div class="field mr-2">
+          <label for="startTime" class="block">Start Time</label>
+          <p-calendar id="startTime" name="startTime" aria-describedby="startTime-help" class="ng-invalid ng-dirty">
+          </p-calendar>
+          <small id="startTime-help" class="p-error block">Start Time is not available.</small>
+        </div>
+        <div class="field mr-2">
+          <label for="endTime" class="block">End Time</label>
+          <p-calendar id="endTime" name="endTime" class="ng-invalid ng-dirty"></p-calendar>
+          <small id="endTime-help" class="p-error block">Name is not available.</small>
+        </div>
+        <div class="field mr-2">
+          <label for="marks" class="block">Marks</label>
+          <p-inputNumber id="marks" name="marks" aria-describedby="marks-help" class="ng-invalid ng-dirty">
+          </p-inputNumber>
+          <small id="marks-help" class="p-error block">Marks is not available.</small>
+        </div>
+        <div class="field mr-2">
+          <label for="noAttempts" class="block">No. of Attempts</label>
+          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="0" [max]="100" name="noAttempts" aria-describedby="marks-help" class="ng-invalid ng-dirty">
+          </p-inputNumber>
+          <small id="noAttempts-help" class="p-error block">No. of Attempts is not available.</small>
+        </div>
+        <div class="questions w-100" formArrayName="quizQuestions">
+          <div *ngFor="let question of quizQuestions.controls;let i='index'" [formGroup]="questionForm"
+            class="p-card pt-5 pb-5 pr-3 pl-3 mt-4 shadow-3">
+            <div class="p-card-title text-lg">
+              {{i+1}}.Question
+            </div>
+            <div class="field mr-2">
+              <p-editor [id]="'question'+i" [style]="{'height':'150px'}" type="text" styleClass="ng-invalid ng-dirty">
+              </p-editor>
+              <small [id]="'question'+i+'-help'" class="p-error block">Name is not available.</small>
+            </div>
+            <div class="flex flex-row" formGroupName="options">
+                <div class="field mr-2" *ngFor="let option of options.controls;let j='index'">
+                  <label [for]="'option'+i+''+j" class="block">{{j+1}}.Option</label>
+                  <input [id]="'option'+i+''+j" [name]="'option'+i+''+j" type="text" class="ng-invalid ng-dirty"
+                    pInputText />
+                  <small [id]="'option'+i+''+j+'-help'" class="p-error block">{{j+1}}.Option is not available.</small>
+                </div>
+            </div>
+            <div class="flex flex-row flex-wrap">
+              <div class="field mr-2">
+                <label [for]="'marks'+i" class="block">Marks</label>
+                <p-inputNumber [id]="'marks'+i" [showButtons]="true" [inputId]="'minmax-buttons'+i" [min]="0" [max]="100" [name]="'marks'+i" class="ng-invalid ng-dirty"></p-inputNumber>
+                <small [id]="'marks'+i+'-help'" class="p-error block">Marks is not available.</small>
+              </div>
+              <div class="field mr-2">
+                <label [for]="'actualAnswer'+i" class="block">Actual Answer</label>
+                <input [id]="'actualAnswer'+i" [name]="'actualAnswer'+i" type="text" class="ng-invalid ng-dirty"
+                  pInputText />
+                <small [id]="'actualAnswer'+i+'-help'" class="p-error block">Name is not available.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row justify-content-end mt-2">
+        <p-button label="Add Question" icon="pi pi-plus" iconPos="left" (onClick)="addQuestion()"></p-button>
+      </div>
+      <div class="flex flex-row justify-content-center m-5">
+        <p-button label="Create Quiz" type="submit"></p-button>
+      </div>
+    </form>
+  </ng-template>
+</p-card>

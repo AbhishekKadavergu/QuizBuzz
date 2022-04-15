@@ -1,0 +1,22 @@
+<p-card styleClass="m-5 vh-80 mvw-90">
+  <ng-template pTemplate="title">
+    {{quiz.name}}
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    Answer all the Questions
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="flex flex-column">
+      <p-panel styleClass="mb-5" *ngFor="let question of quizQuestions;let i='index'">
+        <ng-template pTemplate="header">
+          {{i+1}}.{{question.question}}
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="flex flex-column">
+            <p-radioButton *ngFor="let option of question.options" styleClass="mt-2 mb-2" [name]="question.id" [value]="option" [label]="option" [(ngModel)]="question.selectedAnswer"></p-radioButton>
+          </div>
+        </ng-template>
+      </p-panel>
+    </div>
+  </ng-template>
+</p-card>

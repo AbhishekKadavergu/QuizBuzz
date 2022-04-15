@@ -21,6 +21,7 @@ export class NavBarComponent implements OnInit {
         target: event.target?event.target:undefined,
         message: 'Are you sure that you want to logout?',
         icon: 'pi pi-exclamation-triangle',
+        key:'logout',
         accept: () => {
             //confirm action
             this.store.setUser(new User());

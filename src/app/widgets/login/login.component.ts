@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   constructor() { }
-  //@ViewChild('loginForm') loginForm: any;
+  showPassword:boolean=false;
 
   ngOnInit(): void {
   }

@@ -7,32 +7,69 @@
   </ng-template>
   <ng-template pTemplate="content">
     <div class="flex flex-column" style="width:20rem">
-      <form class="flex flex-column m-1">
+      <form class="flex flex-column m-1" [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
         <div class="field">
           <label for="username" class="block">Username</label>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-            <input type="text" id="username" pInputText placeholder="Username">
+            <input type="text" id="username"
+              [class.ng-dirty]="signUpForm.controls['username'].invalid && (signUpForm.controls['username'].dirty||signUpForm.controls['username'].touched)"
+              [class.ng-invalid]="signUpForm.controls['username'].invalid && (signUpForm.controls['username'].dirty||signUpForm.controls['username'].touched)"
+              formControlName="username" pInputText placeholder="Username">
           </div>
-          <small id="username-help" class="p-error block">Username is not available.</small>
+          <small id="username-help" class="p-error block" style="height: 12px;">
+            <span
+              *ngIf="signUpForm.controls['username'].invalid && (signUpForm.controls['username'].dirty||signUpForm.controls['username'].touched)">
+              Username is not available.
+            </span>
+          </small>
         </div>
         <div class="field">
           <label for="password" class="block">Password</label>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
-            <p-password id="password" placeholder="Password" [style]="{'width':'100%'}"></p-password>
+            <span class="p-input-icon-right" style="width: 100%;">
+              <i class="pi" [class.pi-eye]="!showPassword" [class.pi-eye-slash]="showPassword"
+                (click)="showPassword=!showPassword"></i>
+              <input id="password" [type]="showPassword?'text':'password'" pInputText placeholder="Password"
+                name="password" formControlName="password"
+                [class.ng-invalid]="signUpForm.controls['password'].invalid && (signUpForm.controls['password'].dirty || signUpForm.controls['password'].touched)"
+                [class.ng-dirty]="signUpForm.controls['password'].invalid && (signUpForm.controls['password'].dirty || signUpForm.controls['password'].touched)"
+                [style]="{'width':'100%'}" />
+            </span>
           </div>
-          <small id="username-help" class="p-error block">Password is not available.</small>
+          <small id="username-help" class="block p-error" style="height: 12px;">
+            <span
+              *ngIf="signUpForm.controls['password'].invalid && (signUpForm.controls['password'].dirty || signUpForm.controls['password'].touched)">
+              Enter valid password
+            </span>
+          </small>
         </div>
         <div class="field">
           <label for="confirmPassword" class="block">Confirm Password</label>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
-            <p-password id="confirmPassword" placeholder="Confirm Password" [style]="{'width':'100%'}"></p-password>
+            <span class="p-input-icon-right" style="width: 100%;">
+              <i class="pi" [class.pi-eye]="!showPassword" [class.pi-eye-slash]="showPassword"
+                (click)="showPassword=!showPassword"></i>
+              <input id="confirmPassword" [type]="showPassword?'text':'password'" pInputText
+                placeholder="Confirm Password" name="confirmPassword" formControlName="confirmPassword"
+                [class.ng-invalid]="signUpForm.controls['confirmPassword'].invalid && (signUpForm.controls['confirmPassword'].dirty || signUpForm.controls['confirmPassword'].touched)"
+                [class.ng-dirty]="signUpForm.controls['confirmPassword'].invalid && (signUpForm.controls['confirmPassword'].dirty || signUpForm.controls['confirmPassword'].touched)"
+                [style]="{'width':'100%'}" />
+            </span>
           </div>
-          <small id="username-help" class="p-error block">Password is not available.</small>
+          <small id="username-help" class="block p-error" style="height: 12px;">
+            <span
+              *ngIf="signUpForm.controls['confirmPassword'].value===signUpForm.controls['password'].value && signUpForm.controls['confirmPassword'].invalid && (signUpForm.controls['confirmPassword'].dirty || signUpForm.controls['confirmPassword'].touched)">
+               Enter valid password
+            </span>
+            <span *ngIf="signUpForm.controls['confirmPassword'].value!==signUpForm.controls['password'].value">
+              Password and Confirm Password should match
+            </span>
+          </small>
         </div>
-        <p-button label="Sign-In" [style]="{'width':'100%'}" type="submit" [loading]="false"></p-button>
+        <p-button label="Sign-In" [style]="{'width':'100%'}" type="submit" [disabled]="!signUpForm.valid" [loading]="false"></p-button>
       </form>
       <div class="mt-1 mb-1 flex flex-row justify-content-between">
         <span class="text-xs">Already have an Account ?</span>

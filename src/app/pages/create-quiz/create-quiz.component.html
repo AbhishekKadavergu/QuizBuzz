@@ -47,7 +47,7 @@
         </div>
         <div class="field mr-2">
           <label for="marks" class="block">Marks</label>
-          <p-inputNumber id="marks" name="marks" aria-describedby="marks-help" formControlName="marks"
+          <p-inputNumber id="marks" name="marks" aria-describedby="marks-help" formControlName="marks" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="1"
             [class.ng-invalid]="quizForm.controls['marks'].invalid && (quizForm.controls['marks'].dirty||quizForm.controls['marks'].touched)"
             [class.ng-dirty]="quizForm.controls['marks'].invalid && (quizForm.controls['marks'].dirty||quizForm.controls['marks'].touched)">
           </p-inputNumber>
@@ -60,7 +60,7 @@
         </div>
         <div class="field mr-2">
           <label for="noAttempts" class="block">No. of Attempts</label>
-          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="0" [max]="100"
+          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="1"
             name="noAttempts" aria-describedby="marks-help" formControlName="noAttempts"
             [class.ng-invalid]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)"
             [class.ng-dirty]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)">
@@ -107,8 +107,8 @@
               <div class="flex flex-row flex-wrap">
                 <div class="field mr-2">
                   <label [for]="'marks'+i" class="block">Marks</label>
-                  <p-inputNumber [id]="'marks'+i" [formControlName]="'marks'" [showButtons]="true" [inputId]="'minmax-buttons'+i" [min]="0"
-                    [max]="100" [name]="'marks'+i"
+                  <p-inputNumber [id]="'marks'+i" [formControlName]="'marks'" [showButtons]="true" [inputId]="'minmax-buttons'+i" [min]="1"
+                     [name]="'marks'+i"
                     [class.ng-invalid]="question.get('marks')?.invalid && (question.get('marks')?.dirty||question.get('marks')?.touched)"
                     [class.ng-dirty]="question.get('marks')?.invalid && (question.get('marks')?.dirty||question.get('marks')?.touched)"></p-inputNumber>
                   <small style="height:12px" [id]="'marks'+i+'-help'" class="p-error block">
@@ -119,10 +119,9 @@
                 </div>
                 <div class="field mr-2">
                   <label [for]="'actualAnswer'+i" class="block">Actual Answer</label>
-                  <input [id]="'actualAnswer'+i" [formControlName]="'actualAnswer'" [name]="'actualAnswer'+i" type="text"
+                  <p-dropdown [options]="actualAnswerDropdown" [id]="'actualAnswer'+i" [formControlName]="'actualAnswer'" [name]="'actualAnswer'+i"
                   [class.ng-invalid]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"
-                    [class.ng-dirty]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"
-                    pInputText />
+                    [class.ng-dirty]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"></p-dropdown>
                   <small style="height:12px" [id]="'actualAnswer'+i+'-help'" class="p-error block">
                     <span *ngIf="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)">
                       ActualAnswer is not available

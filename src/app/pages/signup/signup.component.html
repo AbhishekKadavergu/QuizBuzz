@@ -69,6 +69,7 @@
             </span>
           </small>
         </div>
+        <p-toggleButton styleClass="mb-4" [onIcon]="'pi pi-user-edit'" [offIcon]="'pi pi-user'" [onLabel]="'Sign-Up as Administrator'" offLabel="Sign-Up as User" formControlName="isAdmin"></p-toggleButton>
         <p-button label="Sign-In" [style]="{'width':'100%'}" type="submit" [disabled]="!signUpForm.valid" [loading]="false"></p-button>
       </form>
       <div class="mt-1 mb-1 flex flex-row justify-content-between">

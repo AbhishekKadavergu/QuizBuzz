@@ -1,3 +1,4 @@
+import { Dropdown, IDropdown } from './../../utils/Models/Dropdown';
 
 import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -10,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class CreateQuizComponent implements OnInit {
 
   quizForm;
+  actualAnswerDropdown:IDropdown[];
   constructor(private fb:FormBuilder) {
     let sd=new Date();
     let ed=new Date();
@@ -24,6 +26,13 @@ export class CreateQuizComponent implements OnInit {
       ])
     });
     this.addQuestion();
+    this.actualAnswerDropdown=[
+      new Dropdown({label:"Option 1",value:0}),
+      new Dropdown({label:'Option 2',value:1}),
+      new Dropdown({label:'Option 3',value:2}),
+      new Dropdown({label:'Option 4',value:3})
+    ];
+
   }
 
   get quizQuestions(){

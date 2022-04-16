@@ -25,6 +25,8 @@ import {CalendarModule} from 'primeng/calendar';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {EditorModule} from 'primeng/editor';
 import {FieldsetModule} from 'primeng/fieldset';
+import {DropdownModule} from 'primeng/dropdown';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 import { HomeComponent } from './pages/home/home.component';
 import { NavBarComponent } from './widgets/nav-bar/nav-bar.component';
@@ -65,7 +67,9 @@ import { CreateQuizComponent } from './pages/create-quiz/create-quiz.component';
     InputNumberModule,
     CalendarModule,
     EditorModule,
-    FieldsetModule
+    DropdownModule,
+    FieldsetModule,
+    ToggleButtonModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent]

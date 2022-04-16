@@ -1,3 +1,4 @@
+import { AppReducer } from './services/store/app.store';
 import { SignupComponent } from './pages/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +34,8 @@ import { NavBarComponent } from './widgets/nav-bar/nav-bar.component';
 import { QuizListComponent } from './pages/quiz-list/quiz-list.component';
 import { QuizComponent } from './pages/quiz/quiz.component';
 import { CreateQuizComponent } from './pages/create-quiz/create-quiz.component';
+import { StoreModule } from '@ngrx/store';
+
 
 
 
@@ -69,7 +72,8 @@ import { CreateQuizComponent } from './pages/create-quiz/create-quiz.component';
     EditorModule,
     DropdownModule,
     FieldsetModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    StoreModule.forRoot(AppReducer)
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent]

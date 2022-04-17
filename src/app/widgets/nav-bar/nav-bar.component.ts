@@ -1,8 +1,9 @@
-import { DataStoreService } from './../../services/store/data-store.service';
+import { AuthLogout } from './../../services/store/auth/auth.actions';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { User } from 'src/app/utils/Models/User';
+import { AppState } from 'src/app/services/store/app.store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,7 +12,7 @@ import { User } from 'src/app/utils/Models/User';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private confirmationService: ConfirmationService,private router:Router,private store:DataStoreService) {}
+  constructor(private confirmationService: ConfirmationService,private router:Router,private store:Store<AppState>) {}
 
   ngOnInit(): void {
   }
@@ -24,7 +25,7 @@ export class NavBarComponent implements OnInit {
         key:'logout',
         accept: () => {
             //confirm action
-            this.store.setUser(new User());
+            this.store.dispatch(new AuthLogout());
             this.router.navigateByUrl("/")
         },
     });

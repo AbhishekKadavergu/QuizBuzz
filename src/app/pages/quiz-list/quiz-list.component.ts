@@ -1,11 +1,14 @@
+import { IAuth } from './../../utils/Models/Auth';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IUser, User } from './../../utils/Models/User';
-import { DataStoreService } from './../../services/store/data-store.service';
 import { Router } from '@angular/router';
 import { IQuiz, Quiz } from './../../utils/Models/Quiz';
-import { ITable } from './../../utils/Models/ITable';
+import { ITable } from '../../utils/Models/Table';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
+import { AppState } from 'src/app/services/store/app.store';
 
 @Component({
   selector: 'app-quiz-list',
@@ -19,7 +22,7 @@ export class QuizListComponent implements OnInit,OnDestroy {
   user:IUser;
   userSub!:Subscription;
 
-  constructor(private confirmationService: ConfirmationService,private router:Router,private store:DataStoreService) {
+  constructor(private confirmationService: ConfirmationService,private router:Router,private store:Store<AppState>) {
     this.quizList={
       header:[
         {header:'Quiz Name',field:'name',type:'string'},
@@ -44,9 +47,10 @@ export class QuizListComponent implements OnInit,OnDestroy {
    }
 
   ngOnInit(): void {
-    this.userSub=this.store.user.subscribe((user:IUser)=>{
+    this.userSub=this.store.select("auth").pipe(
+      map((auth:IAuth)=>auth.user)
+    ).subscribe((user:IUser)=>{
       this.user=user;
-      this.user.isAdmin=true;
     })
   }
 

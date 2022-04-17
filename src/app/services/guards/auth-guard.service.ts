@@ -1,4 +1,6 @@
-import { DataStoreService } from './../store/data-store.service';
+import { IAuth } from './../../utils/Models/Auth';
+import { Store } from '@ngrx/store';
+
 
 import {
   CanActivate,
@@ -10,12 +12,13 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map} from 'rxjs/operators';
+import { AppState } from '../store/app.store';
 
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private store: DataStoreService, private router: Router) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -25,7 +28,8 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree> {
-    return this.store.user.pipe(
+    return this.store.select("auth").pipe(
+      map((auth:IAuth)=>auth.user),
       map(user => {
         if (user.id) {
           return true;

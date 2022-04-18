@@ -60,7 +60,7 @@
         </div>
         <div class="field mr-2">
           <label for="noAttempts" class="block">No. of Attempts</label>
-          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons'" [min]="1"
+          <p-inputNumber id="noAttempts" [showButtons]="true" [inputId]="'minmax-buttons2'" [min]="1"
             name="noAttempts" aria-describedby="marks-help" formControlName="noAttempts"
             [class.ng-invalid]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)"
             [class.ng-dirty]="quizForm.controls['noAttempts'].invalid && (quizForm.controls['noAttempts'].dirty||quizForm.controls['noAttempts'].touched)">
@@ -119,7 +119,7 @@
                 </div>
                 <div class="field mr-2">
                   <label [for]="'actualAnswer'+i" class="block">Actual Answer</label>
-                  <p-dropdown [options]="actualAnswerDropdown" [id]="'actualAnswer'+i" [formControlName]="'actualAnswer'" [name]="'actualAnswer'+i"
+                  <p-dropdown [options]="actualAnswerDropdown" [autoDisplayFirst]="false" placeholder="Select Actual Answer" [id]="'actualAnswer'+i" [formControlName]="'actualAnswer'" [name]="'actualAnswer'+i"
                   [class.ng-invalid]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"
                     [class.ng-dirty]="question.get('actualAnswer')?.invalid && (question.get('actualAnswer')?.dirty||question.get('actualAnswer')?.touched)"></p-dropdown>
                   <small style="height:12px" [id]="'actualAnswer'+i+'-help'" class="p-error block">

@@ -34,3 +34,8 @@ export const LoadQuizList = createAction(
   '[Load Quiz] load quiz to ui',
   props<{quizlist:IQuiz[]}>()
 )
+
+export const DeleteQuizRest = createAction(
+  '[Delete Quiz] deleting the quiz',
+  props<{id:string}>()
+)

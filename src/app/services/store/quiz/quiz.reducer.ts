@@ -7,8 +7,8 @@ import { SelectQuiz, SelectQuizQuestions, ClearQuiz, ClearQuizQuestions, LoadQui
 
 const initialState={
   quizList:<Array<IQuiz>>[],
-  selectedQuiz:<IQuiz>{},
-  selectedQuizQuestions:<Array<IQuizQuestions>>[]
+  currentQuiz:<IQuiz>{},
+  currentQuizQuestions:<Array<IQuizQuestions>>[]
 }
 
 export const quizReducer = createReducer(
@@ -16,25 +16,25 @@ export const quizReducer = createReducer(
   on(SelectQuiz,(state,payload)=>{
     return {
       ...state,
-      selectedQuiz:payload.quizInfo
+      currentQuiz:payload.quizInfo
     };
   }),
   on(SelectQuizQuestions,(state,payload)=>{
     return {
       ...state,
-      selectedQuizQuestions:payload.quizQuestions
+      currentQuizQuestions:payload.quizQuestions
     }
   }),
   on(ClearQuiz,(state)=>{
     return {
       ...state,
-      selectedQuiz:<IQuiz>{}
+      currentQuiz:<IQuiz>{}
     }
   }),
   on(ClearQuizQuestions,(state)=>{
     return {
       ...state,
-      selectedQuizQuestions:<Array<IQuizQuestions>>[]
+      currentQuizQuestions:<Array<IQuizQuestions>>[]
     }
   }),
   on(LoadQuizList,(state,payload)=>{

@@ -1,3 +1,4 @@
+import { userSelector, validUserSelector } from './../store/auth/auth.selectors';
 import { IAuth } from './../../utils/Models/Auth';
 import { Store } from '@ngrx/store';
 
@@ -28,14 +29,6 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree> {
-    return this.store.select("auth").pipe(
-      map((auth:IAuth)=>auth.user),
-      map(user => {
-        if (user.id) {
-          return true;
-        }
-        return this.router.createUrlTree(['/login']);
-      })
-    );
+    return this.store.pipe(map(state=>validUserSelector(state)))
   }
 }

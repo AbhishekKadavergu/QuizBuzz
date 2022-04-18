@@ -6,7 +6,7 @@
     Select the Quiz you want to attempt
   </ng-template>
   <ng-template pTemplate="content">
-    <p-table [columns]="quizList.header" dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped" [value]="quizList.body" selectionMode="single" [(selection)]="selectedQuiz">
+    <p-table [columns]="quizList.header" dataKey="id" (onRowUnselect)="resetQuiz()" styleClass="p-datatable-gridlines p-datatable-striped" [value]="quizList.body" selectionMode="single" [(selection)]="selectedQuiz">
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">
@@ -31,10 +31,11 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <div class="flex flex-row justify-content-end mt-2 mb-2">
-      <p-button label="Attempt" *ngIf="!user.isAdmin" class="mr-2" icon="pi pi-book" (onClick)="onAttempt()" [disabled]="!selectedQuiz.id" iconPos="left"></p-button>
-      <p-button label="Delete" *ngIf="user.isAdmin" class="mr-2" [disabled]="!selectedQuiz.id" icon="pi pi-trash" (onClick)="onDelete()"  iconPos="left"></p-button>
-      <p-button label="Create" *ngIf="user.isAdmin"  icon="pi pi-plus" routerLink="/home/createQuiz"  iconPos="left"></p-button>
+      <p-button label="Attempt" *ngIf="!(user | async)?.isAdmin" class="mr-2" icon="pi pi-book" (onClick)="onAttempt()" [disabled]="!selectedQuiz?.id" iconPos="left"></p-button>
+      <p-button label="Delete" *ngIf="(user | async)?.isAdmin" class="mr-2 p-button-danger" [disabled]="!selectedQuiz?.id" icon="pi pi-trash" (onClick)="onDelete()"  iconPos="left"></p-button>
+      <p-button label="Edit" *ngIf="(user | async)?.isAdmin" class="mr-2 p-button-info" [disabled]="!selectedQuiz?.id" icon="pi pi-pencil" (onClick)="onEdit()"  iconPos="left"></p-button>
+      <p-button label="Create" *ngIf="(user | async)?.isAdmin"  icon="pi pi-plus" routerLink="/home/createQuiz"  iconPos="left"></p-button>
     </div>
   </ng-template>
 </p-card>
-<p-confirmDialog key="attempt"></p-confirmDialog>
+<p-confirmDialog key="quizlist"></p-confirmDialog>

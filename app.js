@@ -92,9 +92,9 @@ app.use("/signup", (req, res, next) => {
 
 app.use("/createquiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-  const { name, startTime, endTime, marks, attempts, result,quizQuestions } = req.body;
-  const newQuiz={ id:random.string(10), name, startTime, endTime, marks, attempts, result,quizQuestions };
-  db.quizlist.append(newQuiz);
+  const { name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
+  const newQuiz={ id:random.string(10),noAttempts, name, startTime, endTime, marks,attempted, attempts, result,quizQuestions };
+  db.quizlist.push(newQuiz);
   fs.writeFileSync("./db.json", JSON.stringify(db));
   return res.json({
     status: true,
@@ -107,8 +107,8 @@ app.use("/createquiz", (req, res, next) => {
 
 app.use("/editquiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-  const { id,name, startTime, endTime, marks, attempts, result,quizQuestions } = req.body;
-  const updatedQuiz = { id,name, startTime, endTime, marks, attempts, result,quizQuestions };
+  const { id,name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
+  const updatedQuiz = { id,name, startTime, endTime, marks, attempts,attempted, result,quizQuestions,noAttempts };
   const quizIndex=db.quizlist.findIndex(quiz=>auiz.id==id);
   if(quizIndex>0){
     db.quizlist[quizIndex]=updatedQuiz;
@@ -135,9 +135,9 @@ app.use("/editquiz", (req, res, next) => {
 app.use("/deletequiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   const { id} = req.body;
-  const quizIndex=db.quizlist.findIndex(quiz=>auiz.id==id);
+  const quizIndex=db.quizlist.findIndex(quiz=>quiz.id==id);
   if(quizIndex>0){
-    db.quizlist[quizIndex]=db.quizlist[quizIndex].filter(quiz=>quiz.id!==id);
+    db.quizlist=db.quizlist.filter(quiz=>quiz.id!==id);
     fs.writeFileSync("./db.json", JSON.stringify(db));
   return res.json({
     status: true,

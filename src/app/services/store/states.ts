@@ -17,6 +17,6 @@ export interface UIState{
 
 export interface QuizState{
   quizList:IQuiz[],
-  selectedQuiz:IQuiz,
-  selectedQuizQuestions:IQuizQuestions[]
+  currentQuiz:IQuiz,
+  currentQuizQuestions:IQuizQuestions[]
 }

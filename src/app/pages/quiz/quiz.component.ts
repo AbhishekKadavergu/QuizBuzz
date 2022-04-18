@@ -11,7 +11,7 @@ import { AppState } from 'src/app/services/store/app.store';
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
 })
-export class QuizComponent implements OnInit,OnDestroy {
+export class QuizComponent implements OnInit {
 
 
   quiz!:IQuiz;
@@ -32,14 +32,8 @@ export class QuizComponent implements OnInit,OnDestroy {
    }
 
   ngOnInit(): void {
-    // this.quizSub=this.store.selectedQuiz.subscribe((selectedQuiz:IQuiz)=>{
-    //   this.quiz=selectedQuiz;
-    //   this.quiz.name="QuizName";
-    // });
+
   }
 
-  ngOnDestroy(){
-    this.quizSub?.unsubscribe();
-  }
 
 }

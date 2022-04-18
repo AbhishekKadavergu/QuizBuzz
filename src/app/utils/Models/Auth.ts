@@ -10,7 +10,7 @@ export class Auth{
   isLoggedIn:boolean;
   token:string;
   constructor(data?:IAuth){
-    this.user=data?data.user:new User();
+    this.user=data?new User(data.user):new User();
     this.isLoggedIn=data?data.isLoggedIn:false;
     this.token=data?data.token:""
   }

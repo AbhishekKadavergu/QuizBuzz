@@ -33,13 +33,7 @@ export class QuizListComponent implements OnInit,OnDestroy {
         {header:'Result',field:'result',type:'string'}
       ],
       body:[
-        {id:"1",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"2",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"3",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"4",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"5",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"6",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"},
-        {id:"7",name:"Quizz",startTime:new Date(),endTime:new Date(),marks:100,attempts:"10/10",result:"Not Evaluated"}
+
       ]
     }
     this.selectedQuiz=new Quiz();

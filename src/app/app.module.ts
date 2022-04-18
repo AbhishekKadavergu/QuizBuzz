@@ -1,3 +1,6 @@
+import { QuizEffects } from './services/store/quiz/quiz.effects';
+import { UIEffects } from './services/store/ui/ui.effects';
+import { AuthEffects } from './services/store/auth/auth.effects';
 import { AppReducer } from './services/store/app.store';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -19,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PanelModule } from 'primeng/panel';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -29,6 +32,7 @@ import { EditorModule } from 'primeng/editor';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ToastModule } from 'primeng/toast';
 
 import { HomeComponent } from './pages/home/home.component';
 import { NavBarComponent } from './widgets/nav-bar/nav-bar.component';
@@ -39,6 +43,7 @@ import { StoreModule } from '@ngrx/store';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MyErrorHandler } from './services/util/ErrorHandler';
 import { HttpErrorInterceptor } from './services/util/http-interceptors';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -75,7 +80,9 @@ import { HttpErrorInterceptor } from './services/util/http-interceptors';
     DropdownModule,
     FieldsetModule,
     ToggleButtonModule,
+    ToastModule,
     StoreModule.forRoot(AppReducer),
+    EffectsModule.forRoot([AuthEffects,UIEffects,QuizEffects]),
   ],
   providers: [
     ConfirmationService,
@@ -92,6 +99,7 @@ import { HttpErrorInterceptor } from './services/util/http-interceptors';
       provide: ErrorHandler,
       useClass: MyErrorHandler,
     },
+    MessageService
   ],
   bootstrap: [AppComponent],
 })

@@ -1,5 +1,5 @@
 import { Loading } from './../store/ui/ui.actions';
-import { AuthActions, AuthLogout } from './../store/auth/auth.actions';
+import { AuthLogout } from './../store/auth/auth.actions';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
@@ -40,7 +40,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         let errorMsg = error.message;
         if (error.status == 401) {
           sessionStorage.clear();
-          this.store.dispatch(new AuthLogout())
+          this.store.dispatch(AuthLogout())
           errorMsg = error.error.detail;
           this.router.navigateByUrl('/login');
         }
@@ -51,7 +51,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
   private handleRequestCompleted(): void {
-    this.store.dispatch(new Loading(false));
+    this.store.dispatch(Loading({loading:false}));
   }
 
   private handleSuccessfulResponse(event: HttpEvent<any>): HttpEvent<any> {
@@ -80,7 +80,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       }
     }
     if (event.type == 0) {
-      this.store.dispatch(new Loading(true));
+      this.store.dispatch(Loading({loading:true}));
     }
     return event;
   }

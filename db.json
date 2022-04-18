@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "y2NFwPAj4N",
+      "mail": "satyasri@gmail.com",
+      "password": "test@123",
+      "isAdmin": true
+    },
+    {
+      "id": "n82XkErFNo",
+      "mail": "satyasri@test.com",
+      "password": "test@123",
+      "isAdmin": true
+    }
+  ],
+  "quizlist":[]
+}

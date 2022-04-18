@@ -1,28 +1,22 @@
-import { Auth, IAuth } from './../../../utils/Models/Auth';
-import { AuthActionsTypes, AuthActions } from './auth.actions';
-import { Action } from '@ngrx/store';
-import { User } from 'src/app/utils/Models/User';
+import { AuthLogin, AuthLogout } from './auth.actions';
+import { Auth } from './../../../utils/Models/Auth';
+
+import { createReducer, on } from '@ngrx/store';
+
 
 const initialState = {
   ...new Auth(),
 };
 
-export function AuthReducer(
-  state: IAuth = initialState,
-  action: Action
-) {
-  const authAction = action as AuthActions;
-  switch (authAction.type) {
-    case AuthActionsTypes.LOGIN:
-      return {
-        ...authAction.payload
-      }
-    case AuthActionsTypes.LOGOUT:
-      return {
-        ...state,
-        user:new User()
-      }
-    default:
-      return state;
-  }
-}
+export const AuthReducer = createReducer(
+  initialState,
+  on(AuthLogin,(state,payload)=>{
+    return {
+      ...payload.auth,
+
+    };
+  }),
+  on(AuthLogout,(_state)=>{
+    return initialState;
+  })
+)

@@ -1,13 +1,17 @@
-import { IAuth } from './../../utils/Models/Auth';
+import { quizReducer } from './quiz/quiz.reducer';
+import { UIReducer } from './ui/ui.reducer';
+import { AuthState, UIState, QuizState } from './states';
 import { ActionReducerMap } from '@ngrx/store';
-import { IUser } from '../../utils/Models/User';
 import { AuthReducer } from './auth/auth.reducer';
 
-
-export interface AppState{
-  auth:IAuth
+export interface AppState {
+  auth: AuthState;
+  ui: UIState;
+  quiz: QuizState;
 }
 
-export const AppReducer:ActionReducerMap<AppState> ={
-  auth:AuthReducer
-}
+export const AppReducer: ActionReducerMap<AppState> = {
+  auth: AuthReducer,
+  ui: UIReducer,
+  quiz: quizReducer,
+};

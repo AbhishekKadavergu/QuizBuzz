@@ -1,19 +1,31 @@
-import { UIActions, UIActionsTypes } from './ui.actions';
-import { Action } from '@ngrx/store';
+import { Loading, ShowToast, ResetToast } from './ui.actions';
+
+import {  createReducer, on } from '@ngrx/store';
+import { Toast } from 'src/app/utils/Models/Toast';
 
 const initialState = {
   loading: false,
+  toast:new Toast()
 };
 
-export function UIReducer(state = initialState, action: Action) {
-  const uiActions = action as UIActions;
-  switch(uiActions.type){
-    case UIActionsTypes.LOADING:
-      return {
-        ...state,
-        loading:uiActions.payload
-      }
-    default:
-      return state;
-  }
-}
+export const UIReducer = createReducer(
+  initialState,
+  on(Loading,(state,payload)=>{
+    return {
+      ...state,
+      loading:payload.loading
+    };
+  }),
+  on(ShowToast,(state,payload)=>{
+    return {
+      ...state,
+      toast:payload.toast
+    };
+  }),
+  on(ResetToast,(state)=>{
+    return {
+      ...state,
+      toast:new Toast()
+    };
+  })
+)

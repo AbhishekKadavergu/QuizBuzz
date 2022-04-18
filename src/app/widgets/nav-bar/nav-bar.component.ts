@@ -25,7 +25,7 @@ export class NavBarComponent implements OnInit {
         key:'logout',
         accept: () => {
             //confirm action
-            this.store.dispatch(new AuthLogout());
+            this.store.dispatch(AuthLogout());
             this.router.navigateByUrl("/")
         },
     });

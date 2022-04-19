@@ -92,9 +92,16 @@ app.use("/signup", (req, res, next) => {
 
 app.use("/createquiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-  const { name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
-  const newQuiz={ id:random.string(10),noAttempts, name, startTime, endTime, marks,attempted, attempts, result,quizQuestions };
-  db.quizlist.push(newQuiz);
+  const { id, name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
+  let newQuiz={ id:id,noAttempts, name, startTime, endTime, marks,attempted, attempts, result,quizQuestions };
+  let quizIndex = db.quizlist.findIndex(quiz=>quiz.id===id);
+  if(quizIndex>=0){
+    newQuiz.id=id
+    db.quizlist[quizIndex]=newQuiz;
+  }else{
+    newQuiz.id=random.string(10);
+    db.quizlist.push(newQuiz);
+  }
   fs.writeFileSync("./db.json", JSON.stringify(db));
   return res.json({
     status: true,
@@ -107,18 +114,15 @@ app.use("/createquiz", (req, res, next) => {
 
 app.use("/editquiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-  const { id,name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
-  const updatedQuiz = { id,name, startTime, endTime, marks, attempts,attempted, result,quizQuestions,noAttempts };
-  const quizIndex=db.quizlist.findIndex(quiz=>auiz.id==id);
-  if(quizIndex>0){
-    db.quizlist[quizIndex]=updatedQuiz;
-    fs.writeFileSync("./db.json", JSON.stringify(db));
+  const { id } = req.body;
+  const quizIndex=db.quizlist.findIndex(quiz=>quiz.id==id);
+  if(quizIndex>=0){
   return res.json({
     status: true,
-    detail: "Quiz created successfully",
-    summary: "Success",
-    severity: "success",
-    data: updatedQuiz,
+    detail: "",
+    summary: "",
+    severity: "",
+    data: db.quizlist[quizIndex],
   });
   }else{
     return res.json({
@@ -184,7 +188,9 @@ app.use("/getquiz", (req, res, next) => {
 
 app.use("/getquizlist", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-
+  db.quizlist.forEach(quiz => {
+    delete quiz.quizQuestions;
+  });
   return res.json({
     status: true,
     detail: "",

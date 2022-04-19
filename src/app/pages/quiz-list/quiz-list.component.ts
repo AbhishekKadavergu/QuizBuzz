@@ -1,3 +1,4 @@
+import { EditQuizRest } from './../../services/store/quiz/quiz.actions';
 import { RedirectToPage } from './../../services/store/ui/ui.actions';
 
 import { quizListSelector } from './../../services/store/quiz/quiz.selectors';
@@ -84,7 +85,15 @@ resetQuiz(){
   }
 
   onEdit(){
-
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to edit this quiz?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      key:"quizlist",
+      accept: () => {
+        this.store.dispatch(EditQuizRest({id:this.selectedQuiz.id}));
+      }
+  });
   }
 
 

@@ -2,6 +2,7 @@ import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
 import { IQuiz } from './../../utils/Models/Quiz';
 import { IToast } from './../../utils/Models/Toast';
 import { IAuth } from './../../utils/Models/Auth';
+import { IQuizData } from 'src/app/utils/Models/QuizData';
 
 
 export interface AuthState extends IAuth{
@@ -18,5 +19,6 @@ export interface UIState{
 export interface QuizState{
   quizList:IQuiz[],
   currentQuiz:IQuiz,
-  currentQuizQuestions:IQuizQuestions[]
+  currentQuizQuestions:IQuizQuestions[],
+  currentEditQuiz:IQuizData
 }

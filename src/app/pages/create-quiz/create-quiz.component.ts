@@ -1,3 +1,5 @@
+import { isEditModeSelector } from './../../services/store/quiz/quiz.selectors';
+import { map, Subscription } from 'rxjs';
 import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
 import { QuizQuestions } from './../../utils/Models/QuizQuestions';
 import { Quiz } from 'src/app/utils/Models/Quiz';
@@ -14,6 +16,9 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/services/store/app.store';
+import { currentEditQuizSelector } from 'src/app/services/store/quiz/quiz.selectors';
+import { IQuizData } from 'src/app/utils/Models/QuizData';
+
 
 @Component({
   selector: 'app-create-quiz',
@@ -23,11 +28,16 @@ import { AppState } from 'src/app/services/store/app.store';
 export class CreateQuizComponent implements OnInit {
   quizForm;
   actualAnswerDropdown: IDropdown[];
+  currentEditQuizSub!:Subscription;
+  isEditModeSub!:Subscription;
+  isEditMode:boolean;
+  editQuizId!:string;
   constructor(private fb: FormBuilder, private store: Store<AppState>) {
     let sd = new Date();
     let ed = new Date();
-
+    this.isEditMode=false;
     this.quizForm = this.fb.group({
+      id:[''],
       name: ['', [Validators.required]],
       startTime: ['', [Validators.required]],
       endTime: ['', [Validators.required]],
@@ -70,7 +80,27 @@ export class CreateQuizComponent implements OnInit {
     this.quizQuestions.push(this.questionForm);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentEditQuizSub=this.store.pipe(map(state=>currentEditQuizSelector(state)))
+    .subscribe((finalquizData:IQuizData)=>{
+      let quizData={...finalquizData};
+      if(quizData.id){
+        this.editQuizId=quizData.id;
+        quizData.startTime=new Date(quizData.startTime?quizData.startTime:"");
+        quizData.endTime=new Date(quizData.endTime?quizData.endTime:"");
+        this.quizForm.setValue(quizData);
+      }
+    })
+    this.isEditModeSub=this.store.pipe(map(state=>isEditModeSelector(state)))
+    .subscribe((mode:boolean)=>{
+      this.isEditMode=mode;
+    })
+  }
+
+  ngOnDestroy(){
+    this.currentEditQuizSub?.unsubscribe();
+    this.isEditModeSub?.unsubscribe();
+  }
 
   getOptions(question: AbstractControl) {
     return question.get('options') as FormArray;
@@ -80,11 +110,19 @@ export class CreateQuizComponent implements OnInit {
     return question as FormGroup;
   }
 
-  onCreateQuiz() {
+  getQuizData(){
     let quizInfo = new Quiz(this.quizForm.value);
+    if(this.isEditMode){
+      quizInfo.id=this.editQuizId;
+    }
     let quizQuestionsList = this.quizForm.value.quizQuestions.map(
       (question: IQuizQuestions) => new QuizQuestions(question)
     );
-    this.store.dispatch(CreateQuizRest({quizInfo: quizInfo,quizQuestions: quizQuestionsList}));
+    let quizData={quizInfo: quizInfo,quizQuestions: quizQuestionsList};
+    return quizData;
+  }
+
+  onCreateQuiz() {
+    this.store.dispatch(CreateQuizRest(this.getQuizData()));
   }
 }

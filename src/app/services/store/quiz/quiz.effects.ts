@@ -5,6 +5,8 @@ import { switchMap, mergeMap } from 'rxjs';
 import {
   CreateQuizRest,
   DeleteQuizRest,
+  EditQuiz,
+  EditQuizRest,
   LoadQuizList,
   LoadQuizListRest,
 } from './quiz.actions';
@@ -84,4 +86,29 @@ export class QuizEffects {
       })
     );
   });
+
+  editQuiz = createEffect(()=>{
+    return this.actions$.pipe(
+      ofType(EditQuizRest),
+      switchMap((payload) => {
+        return this.http.post(environment.api + "/editquiz", { id: payload.id }).pipe(
+          mergeMap((response: any) => {
+            if (response.status) {
+              return [
+                EditQuiz({ quizData: response.data }),
+                RedirectToPage({page:"/home/createQuiz"})
+              ];
+            } else {
+              let toast = new Toast(response);
+              toast.show = true;
+              return [
+                ShowToast({ toast: toast })
+              ];
+            }
+          })
+        );
+      })
+    );
+  })
+
 }

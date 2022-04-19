@@ -1,14 +1,16 @@
 import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
 import { createReducer, on } from '@ngrx/store';
-import { IQuiz, Quiz } from "src/app/utils/Models/Quiz";
-import { SelectQuiz, SelectQuizQuestions, ClearQuiz, ClearQuizQuestions, LoadQuizList } from './quiz.actions';
+import { IQuiz } from "src/app/utils/Models/Quiz";
+import { SelectQuiz, SelectQuizQuestions, ClearQuiz, ClearQuizQuestions, LoadQuizList, EditQuiz, ResetEditQuiz } from './quiz.actions';
+import { IQuizData } from 'src/app/utils/Models/QuizData';
 
 
 
 const initialState={
   quizList:<Array<IQuiz>>[],
   currentQuiz:<IQuiz>{},
-  currentQuizQuestions:<Array<IQuizQuestions>>[]
+  currentQuizQuestions:<Array<IQuizQuestions>>[],
+  currentEditQuiz:<IQuizData>{}
 }
 
 export const quizReducer = createReducer(
@@ -41,6 +43,18 @@ export const quizReducer = createReducer(
     return {
       ...state,
       quizList:payload.quizlist
+    }
+  }),
+  on(EditQuiz,(state,payload)=>{
+    return {
+      ...state,
+      currentEditQuiz:payload.quizData
+    }
+  }),
+  on(ResetEditQuiz,(state)=>{
+    return {
+      ...state,
+      currentEditQuiz:<IQuizData>{}
     }
   })
 )

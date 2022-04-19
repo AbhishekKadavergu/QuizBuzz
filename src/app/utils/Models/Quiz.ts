@@ -1,3 +1,4 @@
+
 export interface IQuiz{
   id:string;
   name:string;
@@ -32,3 +33,5 @@ export class Quiz{
     this.attempted=data?data.attempted?data.attempted:0:0;
   }
 }
+
+

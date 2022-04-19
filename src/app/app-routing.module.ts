@@ -16,7 +16,7 @@ const routes: Routes = [
     {path:"login",component:LoginComponent},
     {path:"signup",component:SignupComponent}
   ]},
-  {path:'home',component:HomeComponent , /*canActivate:[AuthGuard]*/ children:[
+  {path:'home',component:HomeComponent , canActivate:[AuthGuard], children:[
     {path:'quizlist',component:QuizListComponent},
     {path:'quiz',component:QuizComponent},
     {path:'createQuiz',component:CreateQuizComponent}

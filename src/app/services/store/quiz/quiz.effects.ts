@@ -3,12 +3,13 @@ import { environment } from './../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, mergeMap } from 'rxjs';
 import {
+  AttemptQuizRest,
   CreateQuizRest,
   DeleteQuizRest,
-  EditQuiz,
-  EditQuizRest,
+  LoadQuiz,
+  LoadQuizRest,
   LoadQuizList,
-  LoadQuizListRest,
+  LoadQuizListRest
 } from './quiz.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -89,14 +90,13 @@ export class QuizEffects {
 
   editQuiz = createEffect(()=>{
     return this.actions$.pipe(
-      ofType(EditQuizRest),
+      ofType(LoadQuizRest),
       switchMap((payload) => {
         return this.http.post(environment.api + "/editquiz", { id: payload.id }).pipe(
           mergeMap((response: any) => {
             if (response.status) {
               return [
-                EditQuiz({ quizData: response.data }),
-                RedirectToPage({page:"/home/createQuiz"})
+                LoadQuiz({ quizData: response.data })
               ];
             } else {
               let toast = new Toast(response);
@@ -110,5 +110,6 @@ export class QuizEffects {
       })
     );
   })
+
 
 }

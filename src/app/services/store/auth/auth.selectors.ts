@@ -22,5 +22,5 @@ export const isLoggedInSelector = createSelector(
 
 export const validUserSelector = createSelector(
   userSelector,
-  (state:IUser)=>!state.id
+  (state:IUser)=>!!state.id
 )

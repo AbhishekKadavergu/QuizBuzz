@@ -5,6 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
 import { AppState } from 'src/app/services/store/app.store';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-quiz',
@@ -18,6 +19,8 @@ export class QuizComponent implements OnInit {
   quizQuestions:IQuizQuestions[];
   quizSub!:Subscription;
 
+
+
   constructor(private store:Store<AppState>) {
     let question = new QuizQuestions();
     question.question="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum quo voluptas corrupti et repellat at exercitationem provident iusto? Veniam quis quo repellendus consequuntur quibusdam exercitationem dolore reprehenderit suscipit ab. Ut?";
@@ -28,7 +31,7 @@ export class QuizComponent implements OnInit {
     this.quizQuestions=[];
     this.quizQuestions.push(question);
     this.quiz=new Quiz();
-    this.quiz.name="Quiz"
+    this.quiz.name="Quiz";
    }
 
   ngOnInit(): void {

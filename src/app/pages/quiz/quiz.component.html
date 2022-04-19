@@ -6,7 +6,8 @@
     Answer all the Questions
   </ng-template>
   <ng-template pTemplate="content">
-    <div class="flex flex-column">
+    <form  class="flex flex-column">
+      <input type="hidden" formArrayName="id">
       <p-panel styleClass="mb-5" *ngFor="let question of quizQuestions;let i='index'">
         <ng-template pTemplate="header">
           {{i+1}}.{{question.question}}
@@ -17,6 +18,6 @@
           </div>
         </ng-template>
       </p-panel>
-    </div>
+    </form>
   </ng-template>
 </p-card>

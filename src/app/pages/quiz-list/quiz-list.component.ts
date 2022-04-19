@@ -1,4 +1,4 @@
-import { EditQuizRest } from './../../services/store/quiz/quiz.actions';
+import { LoadQuizRest } from './../../services/store/quiz/quiz.actions';
 import { RedirectToPage } from './../../services/store/ui/ui.actions';
 
 import { quizListSelector } from './../../services/store/quiz/quiz.selectors';
@@ -63,7 +63,8 @@ export class QuizListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       key:"quizlist",
       accept: () => {
-        this.store.dispatch(RedirectToPage({page:"/home/quiz"}));
+        this.store.dispatch(LoadQuizRest({id:this.selectedQuiz.id}));
+        RedirectToPage({page:"/home/quiz"})
       }
   });
   }
@@ -91,7 +92,8 @@ resetQuiz(){
       icon: 'pi pi-exclamation-triangle',
       key:"quizlist",
       accept: () => {
-        this.store.dispatch(EditQuizRest({id:this.selectedQuiz.id}));
+        this.store.dispatch(LoadQuizRest({id:this.selectedQuiz.id}));
+        RedirectToPage({page:"/home/createQuiz"})
       }
   });
   }

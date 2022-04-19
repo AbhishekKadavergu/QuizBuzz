@@ -12,16 +12,6 @@ export const quizListSelector = createSelector(
 
 export const currentQuizSelector = createSelector(
   quizSelector,
-  (state: QuizState) => state.currentQuiz
-);
-
-export const currentQuizQuestionsSelector = createSelector(
-  quizSelector,
-  (state: QuizState) => state.currentQuizQuestions
-);
-
-export const currentEditQuizSelector = createSelector(
-  quizSelector,
   (state: QuizState) => state.currentEditQuiz
 );
 

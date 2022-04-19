@@ -16,7 +16,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/services/store/app.store';
-import { currentEditQuizSelector } from 'src/app/services/store/quiz/quiz.selectors';
+import { currentQuizSelector } from 'src/app/services/store/quiz/quiz.selectors';
 import { IQuizData } from 'src/app/utils/Models/QuizData';
 
 
@@ -72,6 +72,20 @@ export class CreateQuizComponent implements OnInit {
     });
   }
 
+  populatedQuestionForm(question:IQuizQuestions) {
+    return this.fb.group({
+      question: [question.question, [Validators.required]],
+      options: this.fb.array([
+        this.fb.control(question.options[0], [Validators.required]),
+        this.fb.control(question.options[1], [Validators.required]),
+        this.fb.control(question.options[2], [Validators.required]),
+        this.fb.control(question.options[3], [Validators.required]),
+      ]),
+      marks: [question.marks, [Validators.required]],
+      actualAnswer: [question.actualAnswer, [Validators.required]],
+    });
+  }
+
   get questionList() {
     return this.quizForm.get('quizQuestions') as FormArray;
   }
@@ -81,14 +95,23 @@ export class CreateQuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentEditQuizSub=this.store.pipe(map(state=>currentEditQuizSelector(state)))
+    this.currentEditQuizSub=this.store.pipe(map(state=>currentQuizSelector(state)))
     .subscribe((finalquizData:IQuizData)=>{
-      let quizData={...finalquizData};
+      let quizData:any={...finalquizData};
       if(quizData.id){
         this.editQuizId=quizData.id;
         quizData.startTime=new Date(quizData.startTime?quizData.startTime:"");
         quizData.endTime=new Date(quizData.endTime?quizData.endTime:"");
-        this.quizForm.setValue(quizData);
+        Object.keys(this.quizForm.controls).forEach(item=>{
+          if(item==='quizQuestions'){
+            this.quizQuestions.clear();
+            quizData.quizQuestions.forEach((question:IQuizQuestions) => {
+              this.quizQuestions.push(this.populatedQuestionForm(question));
+            });
+          }else{
+            this.quizForm.controls[item].setValue(quizData[item]);
+          }
+        })
       }
     })
     this.isEditModeSub=this.store.pipe(map(state=>isEditModeSelector(state)))

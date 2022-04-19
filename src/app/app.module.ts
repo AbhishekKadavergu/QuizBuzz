@@ -11,7 +11,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
-import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 //Primeng imports
@@ -44,6 +43,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MyErrorHandler } from './services/util/ErrorHandler';
 import { HttpErrorInterceptor } from './services/util/http-interceptors';
 import { EffectsModule } from '@ngrx/effects';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [

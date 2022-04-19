@@ -9,23 +9,12 @@ export const CreateQuizRest = createAction(
   props<{quizInfo:IQuiz,quizQuestions:IQuizQuestions[]}>()
 )
 
-export const SelectQuiz = createAction(
-  '[Select Quiz] selecting a quiz',
-  props<{quizInfo:IQuiz}>()
-)
 
-export const SelectQuizQuestions = createAction(
-  '[Select Quiz Questions] selecting the quiz questions',
-  props<{quizQuestions:IQuizQuestions[]}>()
-)
 
-export const ClearQuiz = createAction(
-  '[Clear Quiz] Clearing the Quiz'
-)
 
-export const ClearQuizQuestions = createAction(
-  '[Clear Questions] clearing the quiz questions'
-)
+
+
+
 
 export const LoadQuizListRest = createAction(
   '[Load Quiz rest] load the quiz list from rest'
@@ -41,16 +30,21 @@ export const DeleteQuizRest = createAction(
   props<{id:string}>()
 )
 
-export const EditQuizRest = createAction(
+export const LoadQuizRest = createAction(
   '[Edit Quiz] getting the data for editing the quiz',
   props<{id:string}>()
 )
 
-export const EditQuiz = createAction(
+export const LoadQuiz = createAction(
   '[Edit Quiz] setting the data for editing the quiz',
   props<{quizData:IQuizData}>()
 )
 
 export const ResetEditQuiz = createAction(
   '[Edit Quiz] Reset the edit quiz data in state after editing done'
+)
+
+export const AttemptQuizRest = createAction(
+  '[Quiz] load quiz questions',
+  props<{id:string}>()
 )

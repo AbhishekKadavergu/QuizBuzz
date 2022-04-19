@@ -26,7 +26,6 @@ export class NavBarComponent implements OnInit {
         accept: () => {
             //confirm action
             this.store.dispatch(AuthLogout());
-            this.router.navigateByUrl("/")
         },
     });
 }

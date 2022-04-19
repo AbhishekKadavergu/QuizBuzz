@@ -186,6 +186,30 @@ app.use("/getquiz", (req, res, next) => {
 
 });
 
+app.use("/getquizquestions", (req, res, next) => {
+  const db = JSON.parse(fs.readFileSync("./db.json").toString());
+  const { id} = req.body;
+  const quizIndex=db.quizlist.findIndex(quiz=>auiz.id==id);
+  if(quizIndex>0){
+  return res.json({
+    status: true,
+    detail: "",
+    summary: "",
+    severity: "",
+    data: db.quizlist[quizIndex]
+  });
+  }else{
+    return res.json({
+      status: false,
+      detail: "Quiz does not exist",
+      summary: "Error",
+      severity: "error",
+      data: null,
+    });
+  }
+
+});
+
 app.use("/getquizlist", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   db.quizlist.forEach(quiz => {

@@ -42,7 +42,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           sessionStorage.clear();
           this.store.dispatch(AuthLogout())
           errorMsg = error.error.detail;
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/');
         }
         return throwError(() => errorMsg);
       }),

@@ -1,5 +1,5 @@
 
-export interface IQuizQuestions{
+export interface IQuizQuestion{
   id:string;
   question:string;
   options:string[];
@@ -15,7 +15,7 @@ export class QuizQuestions{
   selectedAnswer:string;
   actualAnswer:string;
   marks:number;
-  constructor(data?:IQuizQuestions){
+  constructor(data?:IQuizQuestion){
     this.id=data?data.id:"";
     this.question=data?data.question:"";
     this.selectedAnswer=data?data.selectedAnswer:"";

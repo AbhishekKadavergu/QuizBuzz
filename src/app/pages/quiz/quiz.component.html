@@ -6,18 +6,28 @@
     Answer all the Questions
   </ng-template>
   <ng-template pTemplate="content">
-    <form  class="flex flex-column">
-      <input type="hidden" formArrayName="id">
+    <form #quizForm="ngForm" class="flex flex-column" (ngSubmit)="onSubmit()">
       <p-panel styleClass="mb-5" *ngFor="let question of quizQuestions;let i='index'">
         <ng-template pTemplate="header">
-          {{i+1}}.{{question.question}}
+          <div class="text-lg flex flex-wrap">
+            {{i+1}}.
+            <div [innerHTML]="question.question">
+
+            </div>
+          </div>
         </ng-template>
         <ng-template pTemplate="content">
           <div class="flex flex-column">
-            <p-radioButton *ngFor="let option of question.options" styleClass="mt-2 mb-2" [name]="question.id" [value]="option" [label]="option" [(ngModel)]="question.selectedAnswer"></p-radioButton>
+            <p-radioButton *ngFor="let option of question.options" styleClass="mt-2 mb-2"
+              [ngModelOptions]="{standalone: true}" [required]="true" [value]="option" [label]="option"
+              [(ngModel)]="question.selectedAnswer"></p-radioButton>
           </div>
         </ng-template>
       </p-panel>
+      <div class="flex flex-row justify-content-center m-1">
+        <p-button label="Submit" icon="pi pi-save"  type="submit" iconPos="left"></p-button>
+      </div>
     </form>
   </ng-template>
 </p-card>
+<p-confirmDialog key="quiz"></p-confirmDialog>

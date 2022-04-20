@@ -1,4 +1,4 @@
-import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
+import { IQuizQuestion } from 'src/app/utils/Models/QuizQuestions';
 import { IQuiz } from './../../utils/Models/Quiz';
 import { IToast } from './../../utils/Models/Toast';
 import { IAuth } from './../../utils/Models/Auth';

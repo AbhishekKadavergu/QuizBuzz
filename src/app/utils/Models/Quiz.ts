@@ -5,10 +5,15 @@ export interface IQuiz{
   startTime:Date|null;
   endTime:Date|null;
   marks:number;
-  attempts:string;
   noAttempts:number,
   attempted:number,
-  result:string
+  result:{
+    id:string
+    userId:string
+    attempts:number,
+    score:number,
+    grade:string
+  }[];
 }
 
 export class Quiz{
@@ -17,8 +22,13 @@ export class Quiz{
   startTime:Date|null;
   endTime:Date|null;
   marks:number;
-  attempts:string;
-  result:string;
+  result:{
+    id:string
+    userId:string,
+    attempts:number,
+    score:number,
+    grade:string
+  }[];
   noAttempts:number;
   attempted:number;
   constructor(data?:IQuiz){
@@ -27,8 +37,7 @@ export class Quiz{
     this.startTime=data?data.startTime:null;
     this.endTime=data?data.endTime:null;
     this.marks=data?data.marks:0;
-    this.attempts=data?data.attempts:"0/0";
-    this.result=data?data.result:"";
+    this.result=data?data.result:[];
     this.noAttempts=data?data.noAttempts:1;
     this.attempted=data?data.attempted?data.attempted:0:0;
   }

@@ -10,6 +10,11 @@ export const userSelector = createSelector(
   (state: AuthState) => state.user
 );
 
+export const userIdSelector=createSelector(
+  userSelector,
+  (state:IUser)=>state.id
+)
+
 export const isAdminSelector = createSelector(
   userSelector,
   (state: IUser) => state.isAdmin

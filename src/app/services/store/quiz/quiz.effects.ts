@@ -9,7 +9,8 @@ import {
   LoadQuiz,
   LoadQuizRest,
   LoadQuizList,
-  LoadQuizListRest
+  LoadQuizListRest,
+  SubmitQuizRest,
 } from './quiz.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -88,28 +89,52 @@ export class QuizEffects {
     );
   });
 
-  editQuiz = createEffect(()=>{
+  editQuiz = createEffect(() => {
     return this.actions$.pipe(
       ofType(LoadQuizRest),
       switchMap((payload) => {
-        return this.http.post(environment.api + "/editquiz", { id: payload.id }).pipe(
-          mergeMap((response: any) => {
-            if (response.status) {
-              return [
-                LoadQuiz({ quizData: response.data })
-              ];
-            } else {
-              let toast = new Toast(response);
-              toast.show = true;
-              return [
-                ShowToast({ toast: toast })
-              ];
-            }
-          })
-        );
+        return this.http
+          .post(environment.api + '/editquiz', { id: payload.id })
+          .pipe(
+            mergeMap((response: any) => {
+              if (response.status) {
+                return [LoadQuiz({ quizData: response.data })];
+              } else {
+                let toast = new Toast(response);
+                toast.show = true;
+                return [ShowToast({ toast: toast })];
+              }
+            })
+          );
       })
     );
-  })
+  });
 
-
+  submitQuiz = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubmitQuizRest),
+      switchMap((payload) => {
+        return this.http
+          .post(environment.api + '/submitquiz', {
+            userId:payload.userId,
+            id: payload.id,
+            quizQuestions: payload.quizQuestions,
+          })
+          .pipe(
+            mergeMap((response: any) => {
+              let toast = new Toast(response);
+              toast.show = true;
+              if (response.status) {
+                return [
+                  ShowToast({ toast: toast }),
+                  RedirectToPage({ page: '/home/quizlist' }),
+                ];
+              } else {
+                return [ShowToast({ toast: toast })];
+              }
+            })
+          );
+      })
+    );
+  });
 }

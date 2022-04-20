@@ -1,6 +1,6 @@
 import { isEditModeSelector } from './../../services/store/quiz/quiz.selectors';
 import { map, Subscription } from 'rxjs';
-import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
+import { IQuizQuestion } from 'src/app/utils/Models/QuizQuestions';
 import { QuizQuestions } from './../../utils/Models/QuizQuestions';
 import { Quiz } from 'src/app/utils/Models/Quiz';
 import { CreateQuizRest } from './../../services/store/quiz/quiz.actions';
@@ -32,6 +32,7 @@ export class CreateQuizComponent implements OnInit {
   isEditModeSub!:Subscription;
   isEditMode:boolean;
   editQuizId!:string;
+  quizResult!:any;
   constructor(private fb: FormBuilder, private store: Store<AppState>) {
     let sd = new Date();
     let ed = new Date();
@@ -72,7 +73,7 @@ export class CreateQuizComponent implements OnInit {
     });
   }
 
-  populatedQuestionForm(question:IQuizQuestions) {
+  populatedQuestionForm(question:IQuizQuestion) {
     return this.fb.group({
       question: [question.question, [Validators.required]],
       options: this.fb.array([
@@ -100,12 +101,13 @@ export class CreateQuizComponent implements OnInit {
       let quizData:any={...finalquizData};
       if(quizData.id){
         this.editQuizId=quizData.id;
+        this.quizResult=quizData.result;
         quizData.startTime=new Date(quizData.startTime?quizData.startTime:"");
         quizData.endTime=new Date(quizData.endTime?quizData.endTime:"");
         Object.keys(this.quizForm.controls).forEach(item=>{
           if(item==='quizQuestions'){
             this.quizQuestions.clear();
-            quizData.quizQuestions.forEach((question:IQuizQuestions) => {
+            quizData.quizQuestions.forEach((question:IQuizQuestion) => {
               this.quizQuestions.push(this.populatedQuestionForm(question));
             });
           }else{
@@ -135,11 +137,12 @@ export class CreateQuizComponent implements OnInit {
 
   getQuizData(){
     let quizInfo = new Quiz(this.quizForm.value);
+    quizInfo.result=this.quizResult;
     if(this.isEditMode){
       quizInfo.id=this.editQuizId;
     }
     let quizQuestionsList = this.quizForm.value.quizQuestions.map(
-      (question: IQuizQuestions) => new QuizQuestions(question)
+      (question: IQuizQuestion) => new QuizQuestions(question)
     );
     let quizData={quizInfo: quizInfo,quizQuestions: quizQuestionsList};
     return quizData;

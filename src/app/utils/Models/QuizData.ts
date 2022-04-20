@@ -1,14 +1,14 @@
 import { Quiz } from 'src/app/utils/Models/Quiz';
 import { IQuiz } from "./Quiz";
-import { IQuizQuestions } from "./QuizQuestions";
+import { IQuizQuestion } from "./QuizQuestions";
 
 export interface IQuizData extends IQuiz{
-  quizQuestions:IQuizQuestions[]
+  quizQuestions:IQuizQuestion[]
 }
 
 export class QuizData extends Quiz{
 
-  quizQuestions:IQuizQuestions[];
+  quizQuestions:IQuizQuestion[];
 
   constructor(data?:IQuizData){
     super(data);

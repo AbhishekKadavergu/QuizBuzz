@@ -1,12 +1,12 @@
 
-import { IQuizQuestions } from 'src/app/utils/Models/QuizQuestions';
+import { IQuizQuestion } from 'src/app/utils/Models/QuizQuestions';
 import { IQuiz } from './../../../utils/Models/Quiz';
 import { createAction, props } from '@ngrx/store';
 import { IQuizData } from 'src/app/utils/Models/QuizData';
 
 export const CreateQuizRest = createAction(
   '[Create Quiz] creating the quiz',
-  props<{quizInfo:IQuiz,quizQuestions:IQuizQuestions[]}>()
+  props<{quizInfo:IQuiz,quizQuestions:IQuizQuestion[]}>()
 )
 
 
@@ -40,6 +40,11 @@ export const LoadQuiz = createAction(
   props<{quizData:IQuizData}>()
 )
 
+export const ClearQuiz = createAction(
+  '[Clear Quiz] clearing the loaded quiz',
+)
+
+
 export const ResetEditQuiz = createAction(
   '[Edit Quiz] Reset the edit quiz data in state after editing done'
 )
@@ -47,4 +52,9 @@ export const ResetEditQuiz = createAction(
 export const AttemptQuizRest = createAction(
   '[Quiz] load quiz questions',
   props<{id:string}>()
+)
+
+export const SubmitQuizRest = createAction(
+  '[Submit Quiz] submit the answers for the quiz',
+  props<{id:string,userId:string,quizQuestions:IQuizQuestion[]}>()
 )

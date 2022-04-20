@@ -1,8 +1,8 @@
-import { LoadQuizRest } from './../../services/store/quiz/quiz.actions';
-import { RedirectToPage } from './../../services/store/ui/ui.actions';
+import { LoadQuizRest, ClearQuiz } from './../../services/store/quiz/quiz.actions';
+import { RedirectToPage, ShowToast } from './../../services/store/ui/ui.actions';
 
 import { quizListSelector } from './../../services/store/quiz/quiz.selectors';
-import { userSelector } from './../../services/store/auth/auth.selectors';
+import { userSelector, userIdSelector, isAdminSelector } from './../../services/store/auth/auth.selectors';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +13,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { AppState } from 'src/app/services/store/app.store';
 import { DeleteQuizRest, LoadQuizListRest } from 'src/app/services/store/quiz/quiz.actions';
+import { registerLocaleData } from '@angular/common';
+import { Toast } from 'src/app/utils/Models/Toast';
 
 @Component({
   selector: 'app-quiz-list',
@@ -23,8 +25,9 @@ export class QuizListComponent implements OnInit {
 
   quizList:{header:{header:string,field:string,type:string}[],body:IQuiz[]};
   selectedQuiz:IQuiz;
-  user!:Observable<IUser>;
+  isAdminSub!:Subscription;
   quizListSub!:Subscription;
+  isAdmin:boolean=false;
 
   constructor(private confirmationService: ConfirmationService,private router:Router,private store:Store<AppState>) {
     this.quizList={
@@ -34,7 +37,7 @@ export class QuizListComponent implements OnInit {
         {header:'End Time',field:'endTime',type:'date'},
         {header:'Marks',field:'marks',type:'number'},
         {header:'No of Attempts',field:'noAttempts',type:'string'},
-        {header:'Result',field:'result',type:'string'}
+        {header:'Result',field:'result',type:'result'}
       ],
       body:[]
     }
@@ -42,7 +45,12 @@ export class QuizListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.user=this.store.pipe(map(state=>userSelector(state)));
+    this.isAdminSub=this.store.pipe(map(state=>isAdminSelector(state))).subscribe((isAdmin:boolean)=>{
+      if(isAdmin){
+        this.quizList.header=this.quizList.header.filter(h=>h.field!=='result');
+      }
+      this.isAdmin=isAdmin;
+    })
     this.quizListSub=this.store.pipe(map(state=>quizListSelector(state))).subscribe((quizList:IQuiz[])=>{
       this.quizList.body=quizList;
     });
@@ -51,6 +59,7 @@ export class QuizListComponent implements OnInit {
 
   ngOnDestroy(){
     this.quizListSub?.unsubscribe();
+    this.isAdminSub?.unsubscribe();
   }
 
 
@@ -63,8 +72,19 @@ export class QuizListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       key:"quizlist",
       accept: () => {
+        if(this.selectedQuiz.result.length){
+          if(this.selectedQuiz.result[0].attempts>=this.selectedQuiz.noAttempts){
+            let toast = new Toast();
+            toast.detail="Max number of allowed attempts exceeded";
+            toast.summary="Attempts Exceeded";
+            toast.severity="info";
+            toast.show=true;
+            this.store.dispatch(ShowToast({toast:toast}));
+            return;
+          }
+        }
         this.store.dispatch(LoadQuizRest({id:this.selectedQuiz.id}));
-        RedirectToPage({page:"/home/quiz"})
+        this.store.dispatch(RedirectToPage({page:"/home/quiz"}));
       }
   });
   }
@@ -93,9 +113,14 @@ resetQuiz(){
       key:"quizlist",
       accept: () => {
         this.store.dispatch(LoadQuizRest({id:this.selectedQuiz.id}));
-        RedirectToPage({page:"/home/createQuiz"})
+        this.store.dispatch(RedirectToPage({page:"/home/createQuiz"}));
       }
   });
+  }
+
+  onCreate(){
+    this.store.dispatch(ClearQuiz());
+    this.store.dispatch(RedirectToPage({page:"/home/createQuiz"}));
   }
 
 

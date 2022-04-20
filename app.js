@@ -46,7 +46,7 @@ app.use("/login", (req, res, next) => {
       },
     });
   } else {
-    req.session.userId = user.id;
+    req.session.user = user;
     res.json({
       status: true,
       detail: null,
@@ -92,14 +92,15 @@ app.use("/signup", (req, res, next) => {
 
 app.use("/createquiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
-  const { id, name, startTime, endTime, marks, attempts, result,quizQuestions,noAttempts,attempted } = req.body;
-  let newQuiz={ id:id,noAttempts, name, startTime, endTime, marks,attempted, attempts, result,quizQuestions };
+  const { id, name, startTime, endTime, marks, result,quizQuestions,noAttempts,attempted } = req.body;
+  let newQuiz={ id:id,noAttempts, name, startTime, endTime, marks, result,quizQuestions };
   let quizIndex = db.quizlist.findIndex(quiz=>quiz.id===id);
-  if(quizIndex>=0){
+  if(quizIndex>=0 && newQuiz.id){
     newQuiz.id=id
     db.quizlist[quizIndex]=newQuiz;
   }else{
     newQuiz.id=random.string(10);
+    newQuiz.result=[];
     db.quizlist.push(newQuiz);
   }
   fs.writeFileSync("./db.json", JSON.stringify(db));
@@ -213,6 +214,9 @@ app.use("/getquizquestions", (req, res, next) => {
 app.use("/getquizlist", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   db.quizlist.forEach(quiz => {
+    if(req.session.user.isAdmin){
+      quiz.result=quiz.result.filter(result=>result.id===req.session.user.id);
+    }
     delete quiz.quizQuestions;
   });
   return res.json({
@@ -224,6 +228,56 @@ app.use("/getquizlist", (req, res, next) => {
   });
 
 });
+
+app.use("/submitquiz",(req,res,next)=>{
+  const db = JSON.parse(fs.readFileSync("./db.json").toString());
+  const {userId,id,quizQuestions} = req.body;
+
+  let quizIndex=db.quizlist.findIndex(quiz=>quiz.id===id);
+  if(quizIndex>=0){
+    let score=0;
+    let tmarks=0;
+    quizQuestions.forEach((question)=>{
+      if(question.options[question.actualAnswer]===question.selectedAnswer){
+        score++;
+      }
+      tmarks+=question.marks;
+    });
+    let percent = score/tmarks*100;
+    let grade = percent>50?'Passed':'Failed';
+    let resultIndex = db.quizlist[quizIndex].result.findIndex(r=>r.id===id);
+    let result={
+      id:id,
+      userId:userId,
+      score:score,
+      grade:grade,
+      attempts:1
+    }
+    if(resultIndex>=0){
+      result.attempts=db.quizlist[quizIndex].result[resultIndex].attempts;
+      result.attempts+=1;
+      db.quizlist[quizIndex].result[resultIndex]=result;
+    }else{
+      db.quizlist[quizIndex].result.push(result);
+    }
+    fs.writeFileSync("./db.json", JSON.stringify(db));
+    return res.json({
+      status: true,
+      detail: "Quiz submitted successfully",
+      summary: "Success",
+      severity: "success",
+      data: null,
+    });
+  }else{
+    return res.json({
+      status: false,
+      detail: "Failed to submit the quiz",
+      summary: "Error",
+      severity: "error",
+      data: null,
+    });
+  }
+})
 
 app.use("*", (req, res, next) => {
   res.status(404);

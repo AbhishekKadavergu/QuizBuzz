@@ -20,8 +20,12 @@
             <span *ngIf="col.type==='date'">
               {{quiz[col.field] | date:'M/d/yyyy, h:mm:ss a'}}
             </span>
-            <span *ngIf="col.type!=='date'">
+            <span *ngIf="col.type!=='date'&&col.type!=='result'">
               {{quiz[col.field]}}
+            </span>
+            <span *ngIf="col.type==='result'">
+              <p-tag *ngIf="quiz[col.field].length" [severity]="quiz[col.field][0].grade==='Passed'?'success':'danger'" [value]="quiz[col.field][0].grade"></p-tag>
+              <p-tag *ngIf="quiz[col.field].length==0" [severity]="'warn'" [value]="'Not Evaluated'"></p-tag>
             </span>
           </td>
         </tr>
@@ -31,10 +35,10 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <div class="flex flex-row justify-content-end mt-2 mb-2">
-      <p-button label="Attempt" *ngIf="!(user | async)?.isAdmin" class="mr-2" icon="pi pi-book" (onClick)="onAttempt()" [disabled]="!selectedQuiz?.id" iconPos="left"></p-button>
-      <p-button label="Delete" *ngIf="(user | async)?.isAdmin" class="mr-2 p-button-danger" [disabled]="!selectedQuiz?.id" icon="pi pi-trash" (onClick)="onDelete()"  iconPos="left"></p-button>
-      <p-button label="Edit" *ngIf="(user | async)?.isAdmin" class="mr-2 p-button-info" [disabled]="!selectedQuiz?.id" icon="pi pi-pencil" (onClick)="onEdit()"  iconPos="left"></p-button>
-      <p-button label="Create" *ngIf="(user | async)?.isAdmin"  icon="pi pi-plus" routerLink="/home/createQuiz"  iconPos="left"></p-button>
+      <p-button label="Attempt" *ngIf="!isAdmin" class="mr-2" icon="pi pi-book" (onClick)="onAttempt()" [disabled]="!selectedQuiz?.id" iconPos="left"></p-button>
+      <p-button label="Delete" *ngIf="isAdmin" class="mr-2 p-button-danger" [disabled]="!selectedQuiz?.id" icon="pi pi-trash" (onClick)="onDelete()"  iconPos="left"></p-button>
+      <p-button label="Edit" *ngIf="isAdmin" class="mr-2 p-button-info" [disabled]="!selectedQuiz?.id" icon="pi pi-pencil" (onClick)="onEdit()"  iconPos="left"></p-button>
+      <p-button label="Create" *ngIf="isAdmin"  icon="pi pi-plus" (onClick)="onCreate()"  iconPos="left"></p-button>
     </div>
   </ng-template>
 </p-card>

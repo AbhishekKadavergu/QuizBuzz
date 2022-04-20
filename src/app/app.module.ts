@@ -33,6 +33,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
+import {DialogModule} from 'primeng/dialog';
 
 import { HomeComponent } from './pages/home/home.component';
 import { NavBarComponent } from './widgets/nav-bar/nav-bar.component';
@@ -83,6 +84,7 @@ import { LoginComponent } from './pages/login/login.component';
     ToggleButtonModule,
     ToastModule,
     TagModule,
+    DialogModule,
     StoreModule.forRoot(AppReducer),
     EffectsModule.forRoot([AuthEffects,UIEffects,QuizEffects]),
   ],

@@ -28,6 +28,8 @@ export class QuizListComponent implements OnInit {
   isAdminSub!:Subscription;
   quizListSub!:Subscription;
   isAdmin:boolean=false;
+  displayResult:boolean=false;
+  quizResult:{header:{header:string,field:string,type:string}[],body:{userId:string,score:number,attempts:number,id:string,grade:string}[]};
 
   constructor(private confirmationService: ConfirmationService,private router:Router,private store:Store<AppState>) {
     this.quizList={
@@ -38,6 +40,16 @@ export class QuizListComponent implements OnInit {
         {header:'Marks',field:'marks',type:'number'},
         {header:'No of Attempts',field:'noAttempts',type:'string'},
         {header:'Result',field:'result',type:'result'}
+      ],
+      body:[]
+    }
+    this.quizResult={
+      header:[
+        {header:'QuizID',field:'id',type:'string'},
+        {header:'Mail ID',field:'userId',type:'string'},
+        {header:'Attempts',field:'attempts',type:'attempts'},
+        {header:'Score',field:'score',type:'string'},
+        {header:'Grade',field:'grade',type:'grade'},
       ],
       body:[]
     }
@@ -121,6 +133,11 @@ resetQuiz(){
   onCreate(){
     this.store.dispatch(ClearQuiz());
     this.store.dispatch(RedirectToPage({page:"/home/createQuiz"}));
+  }
+
+  onResult(){
+    this.quizResult.body=this.selectedQuiz.result;
+    this.displayResult=true;
   }
 
 

@@ -214,7 +214,7 @@ app.use("/getquizquestions", (req, res, next) => {
 app.use("/getquizlist", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   db.quizlist.forEach(quiz => {
-    if(req.session.user.isAdmin){
+    if(!req.session.user.isAdmin){
       quiz.result=quiz.result.filter(result=>result.id===req.session.user.id);
     }
     delete quiz.quizQuestions;

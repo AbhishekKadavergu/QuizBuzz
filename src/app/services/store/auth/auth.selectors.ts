@@ -14,6 +14,10 @@ export const userIdSelector=createSelector(
   userSelector,
   (state:IUser)=>state.id
 )
+export const userMailSelector=createSelector(
+  userSelector,
+  (state:IUser)=>state.mail
+)
 
 export const isAdminSelector = createSelector(
   userSelector,

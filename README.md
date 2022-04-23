@@ -1,27 +1,21 @@
 # QuizzBuzz
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
+### Starting Application ###
+1.Run "npm start" command to start frontend
+2.Run "npm run server" command to start backend
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Application Instruction ###
+1.Go to login page by navigating to loalhost:4200
+2.Sign Up as administrator
+3.Click on Create to Create Quiz
+4.Fill all the details and click on save Quiz button to create quiz
+5.Quiz is created in Quiz list Page 
+5.1. Now sign up as user
+5.2. Login as user
+6.Click n attempt to attempt the quiz
+7.Click on yes to confirm
+8.Answer the quiz and click on submit
+9.Now Quiz result can be viewd on clicking show results
+10.click on show results to show result of quiz
+11.Login as administrator to track all results of particular quiz
+12.Can delete the quiz by ckicking on delete button

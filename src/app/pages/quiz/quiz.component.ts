@@ -1,4 +1,4 @@
-import { userIdSelector } from './../../services/store/auth/auth.selectors';
+import { userIdSelector, userMailSelector } from './../../services/store/auth/auth.selectors';
 import { ConfirmationService } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { QuizQuestions } from './../../utils/Models/QuizQuestions';
@@ -40,7 +40,7 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIdSub = this.store
-      .pipe(map((state) => userIdSelector(state)))
+      .pipe(map((state) => userMailSelector(state)))
       .subscribe((userId: string) => {
         this.userId = userId;
       });

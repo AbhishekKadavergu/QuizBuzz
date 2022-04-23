@@ -141,7 +141,7 @@ app.use("/deletequiz", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   const { id} = req.body;
   const quizIndex=db.quizlist.findIndex(quiz=>quiz.id==id);
-  if(quizIndex>0){
+  if(quizIndex>=0){
     db.quizlist=db.quizlist.filter(quiz=>quiz.id!==id);
     fs.writeFileSync("./db.json", JSON.stringify(db));
   return res.json({
@@ -215,7 +215,9 @@ app.use("/getquizlist", (req, res, next) => {
   const db = JSON.parse(fs.readFileSync("./db.json").toString());
   db.quizlist.forEach(quiz => {
     if(!req.session.user.isAdmin){
-      quiz.result=quiz.result.filter(result=>result.id===req.session.user.id);
+      quiz.result=quiz.result.filter((result)=>{
+        return result.userId===req.session.user.mail
+      });
     }
     delete quiz.quizQuestions;
   });

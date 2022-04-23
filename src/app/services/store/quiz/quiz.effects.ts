@@ -77,7 +77,9 @@ export class QuizEffects {
           .pipe(
             mergeMap((response: any) => {
               if (response.status) {
-                return [LoadQuizListRest()];
+                let toast =new Toast(response);
+                toast.show=true;
+                return [LoadQuizListRest(),ShowToast({toast:toast})];
               } else {
                 let toast = new Toast(response);
                 toast.show = true;

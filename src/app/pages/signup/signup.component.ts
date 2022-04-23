@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
         mail: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-        isAdmin: ['', [Validators.required]],
+        isAdmin: [false, [Validators.required]],
       },
       {
         validator: this.ConfirmedValidator('password', 'confirmPassword'),
